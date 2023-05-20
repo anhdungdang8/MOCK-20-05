@@ -1,0 +1,56 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Component/ControllerButton.qml</file>
+        <file>Component/MenuButton.qml</file>
+        <file>Component/ScrollText.qml</file>
+        <file>Component/SliderBar.qml</file>
+        <file>Screen/CustomerMediaScreen.qml</file>
+        <file>Screen/CustomerMenuScreen.qml</file>
+        <file>Screen/ListSong.qml</file>
+        <file>Screen/MusicScreen.qml</file>
+        <file>Screen/PlayListScreen.qml</file>
+        <file>Screen/VideoScreen.qml</file>
+        <file>Icons/bluetooth.png</file>
+        <file>Icons/cart.png</file>
+        <file>Icons/cloud.png</file>
+        <file>Icons/favorite.png</file>
+        <file>Icons/filter.png</file>
+        <file>Icons/folder.png</file>
+        <file>Icons/foldernew.png</file>
+        <file>Icons/grid.png</file>
+        <file>Icons/home.png</file>
+        <file>Icons/home1.png</file>
+        <file>Icons/library_music.png</file>
+        <file>Icons/Logo.png</file>
+        <file>Icons/menu.png</file>
+        <file>Icons/menu_open.png</file>
+        <file>Icons/message.png</file>
+        <file>Icons/music.png</file>
+        <file>Icons/next.png</file>
+        <file>Icons/pause imge.png</file>
+        <file>Icons/pause.png</file>
+        <file>Icons/play.png</file>
+        <file>Icons/playimage.png</file>
+        <file>Icons/power.png</file>
+        <file>Icons/previous.png</file>
+        <file>Icons/queue_music.png</file>
+        <file>Icons/repeat.png</file>
+        <file>Icons/save.png</file>
+        <file>Icons/search.png</file>
+        <file>Icons/settings.png</file>
+        <file>Icons/shuffle.png</file>
+        <file>Icons/skip_next.png</file>
+        <file>Icons/skip_previous.png</file>
+        <file>Icons/speed.png</file>
+        <file>Icons/stop.png</file>
+        <file>Icons/video_library.png</file>
+        <file>Icons/volume_off.png</file>
+        <file>Icons/volume_up.png</file>
+        <file>Screen/CustomerControllerScreen.qml</file>
+        <file>Icons/repeat_one.png</file>
+        <file>Icons/shuffle_.png</file>
+        <file>Icons/shuffle_on.png</file>
+        <file>Icons/shuffle_F.png</file>
+    </qresource>
+</RCC>
