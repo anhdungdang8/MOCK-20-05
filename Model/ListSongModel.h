@@ -23,16 +23,19 @@ public:
         Title = Qt::UserRole+1,
         Artist,
         Album,
+        Source,
         //Duration,
 
 
 
     };
+    ~ListSongModel();
 
     int rowCount(const QModelIndex& parent) const override;
     QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     QHash<int, QByteArray> roleNames() const override;
     void getFolderMusic();
+    void getMusicLocal();
 
 
 
@@ -42,6 +45,8 @@ public:
 
 
 signals:
+    void songAdded(int index);
+
 private:
     QVector<SongModel*> m_listSong;
 };

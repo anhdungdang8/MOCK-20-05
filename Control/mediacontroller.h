@@ -14,7 +14,8 @@
 #include <QStandardPaths>
 #include <QAbstractVideoSurface>
 #include <QAbstractListModel>
-//#include <./Model/ListSongModel.h>
+#include <./Model/ListSongModel.h>
+
 
 
 
@@ -31,7 +32,14 @@ class MediaController : public QObject
     Q_PROPERTY(qint64 position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(qint64 duration READ duration  NOTIFY durationChanged)
-    //Q_PROPERTY(ListSongModel* listSongModel READ listSongModel WRITE setListSongModel NOTIFY listSongModelChanged)
+
+
+
+    Q_PROPERTY(ListSongModel* songModel READ songModel WRITE setSongModel NOTIFY songModelChanged)
+
+
+
+
 
 
 
@@ -41,6 +49,7 @@ class MediaController : public QObject
 
 public:
     explicit MediaController(QObject *parent = nullptr);
+    ~MediaController();
 
     Q_INVOKABLE QVariantList getMusicLocal();
     Q_INVOKABLE QVariantList getVideoLocal();
@@ -56,14 +65,16 @@ public:
     Q_INVOKABLE void setMusicPlay();
     Q_INVOKABLE void setVideoPlay();
 
+  //  Q_INVOKABLE QStringList getMusicModelLocal();
+
 
 
     qint64 position() const;
     qint64 duration() const;
     void setPosition(qint64 newPosition);
 
-//    Q_INVOKABLE int getCurrentMediaIndex();
-//    Q_INVOKABLE void setCurrentIndex(int index);
+    Q_INVOKABLE int getCurrentMediaIndex();
+    Q_INVOKABLE void setCurrentIndex(int index);
 
 
     QStringList listSongPath() const;
@@ -80,16 +91,17 @@ public:
 
 
 
-//    ListSongModel *listSongModel() const;
-//    void setListSongModel(ListSongModel *newListSongModel);
+
+    ListSongModel *songModel() const;
+    void setSongModel(ListSongModel *newSongModel);
 
 public slots:
-//    void onCurrentMediaIndexChanged();
+    void onCurrentMediaIndexChanged();
 
 
 signals:
-//    void currentMediaIndexChanged();
-//    void mediaIndexChanged();
+    void currentMediaIndexChanged();
+    void mediaIndexChanged();
     void positionChanged();
     void durationChanged();
     void listSongPathChanged();
@@ -102,7 +114,8 @@ signals:
 
 
 
-   // void listSongModelChanged();
+
+    void songModelChanged();
 
 private:
 
@@ -124,7 +137,10 @@ private:
     bool m_isShuffleEnabled = false;
     QAbstractVideoSurface *m_videoSurface = nullptr;
 
-   // ListSongModel *m_listSongModel = nullptr;
+
+
+
+    ListSongModel *m_songModel = nullptr;
 };
 
 #endif // MEDIACONTROLLER_H

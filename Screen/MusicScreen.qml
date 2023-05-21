@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import "../Component"
-//import MediaController 1.0
+import MediaController 1.0
 
 
 
@@ -12,15 +12,13 @@ Rectangle{
     height: mediaScreen.height
     color: "#F4A460"
 
-    //        MediaController{
-    //            id:media
-    //        }
+
     property alias contentArea: content
 
 
     Column{
         Rectangle{
-            id:title
+            id:titleArea
             width: musicScreen.width
             height:62
             color:"#4EB09B"
@@ -30,7 +28,7 @@ Rectangle{
 
             Rectangle{
                 id:nameArea
-                height: title.height
+                height: titleArea.height
                 width: 200
                 color:"#4EB09B"
                 radius: 20
@@ -51,8 +49,8 @@ Rectangle{
 
             Rectangle{
                 id:folderArea
-                height: title.height
-                width: title.width-nameArea.width
+                height: titleArea.height
+                width: titleArea.width-nameArea.width
                 color:"#4EB09B"
                 radius: 20
                 border.width: 1
@@ -109,7 +107,7 @@ Rectangle{
         Rectangle{
             id:content
             width: musicScreen.width
-            height:musicScreen.height-title.height
+            height:musicScreen.height-titleArea.height
             color: "#a8e40f"
             clip: true
             ListView
@@ -119,7 +117,9 @@ Rectangle{
                 width: content.width
                 currentIndex: -1
                 visible: true
-                model:mediaObj.listSongPath
+              model:mediaObj.listSongPath
+                //model:songModel
+
                 delegate:
                     Rectangle{
                     width: listGlobal.width
@@ -132,7 +132,10 @@ Rectangle{
                         anchors.left: parent.left
                         anchors.leftMargin: 20
                         id: song_title
+
                         text:mediaObj.listSongPath[index]
+                        //text:Tilte
+
 
                         font.pixelSize: 20
                         color: index == listGlobal.currentIndex ? "red" : "black"

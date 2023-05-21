@@ -1,8 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtMultimedia 5.15
-
-//import MediaController 1.0
+import MediaController 1.0
 
 
 
@@ -33,6 +32,9 @@ Window {
     property string sourceImageCover: ""
     property bool isLoad: false
      property bool isShuffleEnabled: false
+    MediaController{
+        id:mediaObj
+    }
 
 
 

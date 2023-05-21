@@ -13,9 +13,10 @@ int main(int argc, char *argv[])
 #endif
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
-    MediaController mediaObj;
-    QQmlContext* context=  engine.rootContext();
-    context->setContextProperty("mediaObj",&mediaObj);
+//    MediaController mediaObj;
+//    QQmlContext* context=  engine.rootContext();
+//    context->setContextProperty("mediaObj",&mediaObj);
+    qmlRegisterType<MediaController>("MediaController",1,0,"MediaController");
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import "../Component"
-//import MediaController 1.0
+import MediaController 1.0
 
 Rectangle{
     id:controllerScreen

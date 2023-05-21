@@ -10,24 +10,38 @@ MediaController::MediaController(QObject *parent)
     player = new QMediaPlayer;
     playMuscList = new QMediaPlaylist;
     playVideoList= new QMediaPlaylist;
-    //m_listSongModel=new ListSongModel;
+
     player->setVolume(50);
     connect(player, &QMediaPlayer::volumeChanged, this, &MediaController::volumeChanged);
     connect(player, &QMediaPlayer::positionChanged, this, &MediaController::positionChanged);
     connect(player,&QMediaPlayer::durationChanged, this, &MediaController::durationChanged);
+    m_songModel= new ListSongModel(this);
+ connect(m_songModel, &ListSongModel::songAdded, this, &MediaController::playMusic);
 
+    getMusicLocal();
 
-   getMusicLocal();
-   getVideoLocal();
+    getVideoLocal();
+    //getMusicModelLocal();
 
 
 
 }
 
+MediaController::~MediaController()
+{
+    delete player;
+    delete playMuscList;
+    delete playVideoList;
+}
+
 QVariantList MediaController::getMusicLocal()
 {
-   // m_listSongModel->getFolderMusic();
 
+
+
+
+
+     qDebug()<<"oke oke";
 
     QDir m_musicPath;
     m_musicPath.setPath(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).at(0));
@@ -69,17 +83,19 @@ QVariantList MediaController::getVideoLocal()
 }
 void MediaController::getFolder()
 {
-//    QFileDialog dialog;
-//    QStringList filePaths = dialog.getOpenFileNames(nullptr, " ", "/home", "*.mp3");
-//    QList<QMediaContent> content;
+    //    QFileDialog dialog;
+    //    QStringList filePaths = dialog.getOpenFileNames(nullptr, " ", "/home", "*.mp3");
+    //    QList<QMediaContent> content;
 
-//    foreach (const QString& filePath, filePaths) {
-//        QFileInfo fileInfo(filePath);
-//        QString fileName = fileInfo.baseName();
-//        m_listSongPath.append(fileName);
-//         musicList.push_back(QVariant::fromValue(filePath));
-//    }
-//    playlist->addMedia(content);
+    //    foreach (const QString& filePath, filePaths) {
+    //        QFileInfo fileInfo(filePath);
+    //        QString fileName = fileInfo.baseName();
+    //        m_listSongPath.append(fileName);
+    //         musicList.push_back(QVariant::fromValue(filePath));
+    //    }
+    //    playlist->addMedia(content);
+     m_songModel->getFolderMusic();
+
 
 
 }
@@ -117,6 +133,14 @@ void MediaController::setVideoPlay()
     player->setPlaylist(playVideoList);
     qDebug()<<player->mediaStatus();
 }
+
+//QStringList MediaController::getMusicModelLocal()
+//{
+//  m_songModel->getMusicLocal();
+
+
+//}
+
 
 
 
@@ -158,22 +182,22 @@ void MediaController::setVolume(int newVolume)
 
 }
 
-//int MediaController::getCurrentMediaIndex()
-//{
-//    return playMuscList->currentIndex();
+int MediaController::getCurrentMediaIndex()
+{
+    return playMuscList->currentIndex();
 
-//}
+}
 
-//void MediaController::setCurrentIndex(int index)
-//{
-//    playMuscList->setCurrentIndex(index);
-//}
+void MediaController::setCurrentIndex(int index)
+{
+    playMuscList->setCurrentIndex(index);
+}
 
 
-//void MediaController::onCurrentMediaIndexChanged()
-//{
-//    m_currentMediaIndex=playMuscList->currentIndex();
-//}
+void MediaController::onCurrentMediaIndexChanged()
+{
+    m_currentMediaIndex=playMuscList->currentIndex();
+}
 
 
 void MediaController::pauseMedia()
@@ -185,6 +209,7 @@ void MediaController::pauseMedia()
 void MediaController::playMusic(int index)
 {
     playMuscList->setCurrentIndex(index);
+
 
 
 
@@ -227,8 +252,8 @@ void MediaController::previousMedia()
 void MediaController::repeatMedia()
 {
 
-playMuscList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-playVideoList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    playMuscList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    playVideoList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 }
 void MediaController::shuffleMedia()
 {
@@ -268,15 +293,18 @@ void MediaController::setVideoSurface(QAbstractVideoSurface *newVideoSurface)
 
 
 
-//ListSongModel *MediaController::listSongModel() const
-//{
-//    return m_listSongModel;
-//}
 
-//void MediaController::setListSongModel(ListSongModel *newListSongModel)
-//{
-//    if (m_listSongModel == newListSongModel)
-//        return;
-//    m_listSongModel = newListSongModel;
-//    emit listSongModelChanged();
-//}
+
+ListSongModel *MediaController::songModel() const
+{
+    return m_songModel;
+}
+
+void MediaController::setSongModel(ListSongModel *newSongModel)
+{
+    if (m_songModel == newSongModel)
+        return;
+    m_songModel = newSongModel;
+    emit songModelChanged();
+
+}
