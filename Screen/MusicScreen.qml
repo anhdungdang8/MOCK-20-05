@@ -117,8 +117,8 @@ Rectangle{
                 width: content.width
                 currentIndex: -1
                 visible: true
-              model:mediaObj.listSongPath
-                //model:songModel
+             // model:mediaObj.listSongPath
+               model:mediaObj.songModel
 
                 delegate:
                     Rectangle{
@@ -133,8 +133,8 @@ Rectangle{
                         anchors.leftMargin: 20
                         id: song_title
 
-                        text:mediaObj.listSongPath[index]
-                        //text:Tilte
+                      // text:mediaObj.listSongPath[index]
+                        text:"<b>Title:</b>&nbsp;" + Title + "&nbsp;<b>Artist:</b>&nbsp;" + Artist;
 
 
                         font.pixelSize: 20

@@ -2,10 +2,11 @@
 #include "fileref.h"
 
 
-ListSongModel::ListSongModel(QObject *parent)
+ListSongModel::ListSongModel(QVector<SongModel*> &songList, QObject *parent)
     : QAbstractListModel(parent),m_listSong()
 {
 
+    m_listSong=songList;
 
 }
 
@@ -56,67 +57,8 @@ QHash<int, QByteArray> ListSongModel::roleNames() const
     return mapping;
 }
 
-void ListSongModel::getFolderMusic()
-{
-
-    QFileDialog dialog;
-    QStringList musicPath=dialog.getOpenFileNames(nullptr,"","/home","*.mp3");
-
-    for(int i=0;i<musicPath.size();i++)
-    {
-
-        TagLib::FileRef f(musicPath[i].toLocal8Bit().data());
-        TagLib::Tag* tag =f.tag();
-        SongModel* song = new SongModel;
-        song->setSource(musicPath[i].toLocal8Bit().data());
-        song->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
-        song->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
-        song->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
-        m_listSong.push_back(song);
-        qDebug()<<"A";
-        qDebug()<<song->getAlbum()<<"\"";
-        qDebug()<<song->getTitle();
 
 
 
-
-    }
-
-
-
-    //--->
-
-}
-
-void ListSongModel::getMusicLocal()
-{
-  QDir dir;
-  dir.setPath(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).at(0));
-  QStringList filters;
-  filters<<"*.mp3";
-  dir.setNameFilters(filters);
-  QStringList musicPath = dir.entryList(QStringList()<<"*.mp3",QDir::Files);
-
-    for(int i=0;i<musicPath.size();i++)
-    {
-        QString filePath =dir.absoluteFilePath(musicPath[i]);
-
-        TagLib::FileRef f(filePath.toLocal8Bit().data());
-        TagLib::Tag* tag =f.tag();
-        SongModel* song = new SongModel;
-        //song->setSource(musicPath[i].toLocal8Bit().data());
-        song->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
-        song->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
-        song->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
-        m_listSong.push_back(song);
-        qDebug()<<"A";
-        qDebug()<<song->getAlbum()<<"\"";
-        qDebug()<<song->getTitle();
-
-
-
-
-    }
-}
 
 

@@ -15,13 +15,12 @@ MediaController::MediaController(QObject *parent)
     connect(player, &QMediaPlayer::volumeChanged, this, &MediaController::volumeChanged);
     connect(player, &QMediaPlayer::positionChanged, this, &MediaController::positionChanged);
     connect(player,&QMediaPlayer::durationChanged, this, &MediaController::durationChanged);
-    m_songModel= new ListSongModel(this);
- connect(m_songModel, &ListSongModel::songAdded, this, &MediaController::playMusic);
+
 
     getMusicLocal();
 
     getVideoLocal();
-    //getMusicModelLocal();
+
 
 
 
@@ -52,9 +51,29 @@ QVariantList MediaController::getMusicLocal()
 
     for(const QString& f:m_listSongPath)
     {
+
+
+
         content.push_back(QUrl::fromLocalFile(directory.path()+"/" + f));
         musicList.push_back(QVariant::fromValue(f));
+
+        qDebug()<<f;
+        TagLib::FileRef r((directory.path()+"/" + f).toLocal8Bit().data());
+        TagLib::Tag* tag =r.tag();
+        SongModel* song = new SongModel;
+        song->setSource((directory.path()+"/" + f).toLocal8Bit().data());
+        song->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
+        song->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
+        song->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
+        songList.push_back(song);
+        qDebug()<<song->getAlbum()<<"\"";
+        qDebug()<<song->getTitle();
+
+        qDebug()<<songList;
+
+
     }
+    m_songModel=new ListSongModel(songList);
     playMuscList->addMedia(content);
     return musicList;
 
@@ -81,24 +100,7 @@ QVariantList MediaController::getVideoLocal()
     return videoList;
 
 }
-void MediaController::getFolder()
-{
-    //    QFileDialog dialog;
-    //    QStringList filePaths = dialog.getOpenFileNames(nullptr, " ", "/home", "*.mp3");
-    //    QList<QMediaContent> content;
 
-    //    foreach (const QString& filePath, filePaths) {
-    //        QFileInfo fileInfo(filePath);
-    //        QString fileName = fileInfo.baseName();
-    //        m_listSongPath.append(fileName);
-    //         musicList.push_back(QVariant::fromValue(filePath));
-    //    }
-    //    playlist->addMedia(content);
-     m_songModel->getFolderMusic();
-
-
-
-}
 QStringList MediaController::listSongPath() const
 {
     return m_listSongPath;
@@ -134,12 +136,6 @@ void MediaController::setVideoPlay()
     qDebug()<<player->mediaStatus();
 }
 
-//QStringList MediaController::getMusicModelLocal()
-//{
-//  m_songModel->getMusicLocal();
-
-
-//}
 
 
 

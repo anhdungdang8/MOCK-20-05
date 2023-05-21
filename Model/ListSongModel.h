@@ -18,7 +18,7 @@ class ListSongModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit ListSongModel(QObject *parent = nullptr);
+    explicit ListSongModel(QVector<SongModel*> &songList,QObject *parent = nullptr);
     enum Roles {
         Title = Qt::UserRole+1,
         Artist,
@@ -34,8 +34,7 @@ public:
     int rowCount(const QModelIndex& parent) const override;
     QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     QHash<int, QByteArray> roleNames() const override;
-    void getFolderMusic();
-    void getMusicLocal();
+
 
 
 
@@ -45,7 +44,7 @@ public:
 
 
 signals:
-    void songAdded(int index);
+
 
 private:
     QVector<SongModel*> m_listSong;

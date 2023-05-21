@@ -13,8 +13,10 @@
 #include <QMediaMetaData>
 #include <QStandardPaths>
 #include <QAbstractVideoSurface>
+#include <QVector>
 #include <QAbstractListModel>
-#include <./Model/ListSongModel.h>
+#include "../Model/ListSongModel.h"
+#include "../Model/songmodel.h"
 
 
 
@@ -53,7 +55,7 @@ public:
 
     Q_INVOKABLE QVariantList getMusicLocal();
     Q_INVOKABLE QVariantList getVideoLocal();
-    Q_INVOKABLE void getFolder();
+
     Q_INVOKABLE void pauseMedia();
     Q_INVOKABLE void playMusic(int index);
     Q_INVOKABLE void playVideo(int index);
@@ -141,6 +143,9 @@ private:
 
 
     ListSongModel *m_songModel = nullptr;
+    QVector<SongModel*> songList;
+    QVector<SongModel*> videoListModel;
+
 };
 
 #endif // MEDIACONTROLLER_H
