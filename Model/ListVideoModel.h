@@ -1,5 +1,5 @@
-#ifndef LISTSONGMODEL_H
-#define LISTSONGMODEL_H
+#ifndef LISTVIDEOMODEL_H
+#define LISTVIDEOMODEL_H
 #include <taglib.h>
 #include <QObject>
 #include <QVector>
@@ -14,11 +14,13 @@
 #include <QAbstractListModel>
 #include "SongModel.h"
 
-class ListSongModel : public QAbstractListModel
+#include <QObject>
+
+class ListVideoModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit ListSongModel(QVector<SongModel*> &songList,QObject *parent = nullptr);
+    explicit ListVideoModel(QVector<SongModel*> &videoListModel,QObject *parent = nullptr);
     enum Roles {
         Title = Qt::UserRole+1,
         Artist,
@@ -29,26 +31,16 @@ public:
 
 
     };
-    ~ListSongModel();
-
+    ~ListVideoModel();
     int rowCount(const QModelIndex& parent) const override;
     QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     QHash<int, QByteArray> roleNames() const override;
 
 
-
-
-
-
-
-
-
 signals:
-
-
 private:
-    QVector<SongModel*> m_listSong;
+    QVector<SongModel*> m_listVideo;
 
 };
 
-#endif // LISTSONGMODEL_H
+#endif // LISTVIDEOMODEL_H

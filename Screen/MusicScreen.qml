@@ -144,9 +144,11 @@ Rectangle{
                             onClicked: {
                                 listGlobal.currentIndex = index
                                 isPlaying=true
+
                                 mediaObj.setMusicPlay()
 
-                                 mediaObj.playMusic(index);
+                                 mediaObj.playMusic(index)
+                                mediaObj.getMediaTiTle(index)
                                 console.log(song_title.text)
 
                             }

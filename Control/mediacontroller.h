@@ -15,9 +15,11 @@
 #include <QAbstractVideoSurface>
 #include <QVector>
 #include <QAbstractListModel>
+#include <QTimer>
+#include <QEventLoop>
 #include "../Model/ListSongModel.h"
 #include "../Model/songmodel.h"
-
+#include "../Model/ListVideoModel.h"
 
 
 
@@ -38,6 +40,7 @@ class MediaController : public QObject
 
 
     Q_PROPERTY(ListSongModel* songModel READ songModel WRITE setSongModel NOTIFY songModelChanged)
+    Q_PROPERTY(ListSongModel* videoModel READ videoModel WRITE setVideoModel NOTIFY videoModelChanged)
 
 
 
@@ -55,6 +58,8 @@ public:
 
     Q_INVOKABLE QVariantList getMusicLocal();
     Q_INVOKABLE QVariantList getVideoLocal();
+    Q_INVOKABLE void getFolderMusic();
+    Q_INVOKABLE QString getMediaTiTle(int indexSong);
 
     Q_INVOKABLE void pauseMedia();
     Q_INVOKABLE void playMusic(int index);
@@ -64,6 +69,7 @@ public:
     Q_INVOKABLE void previousMedia();
     Q_INVOKABLE void repeatMedia();
     Q_INVOKABLE void shuffleMedia();
+    Q_INVOKABLE void adjustSpeedMedia(qreal rate);
     Q_INVOKABLE void setMusicPlay();
     Q_INVOKABLE void setVideoPlay();
 
@@ -75,8 +81,8 @@ public:
     qint64 duration() const;
     void setPosition(qint64 newPosition);
 
-    Q_INVOKABLE int getCurrentMediaIndex();
-    Q_INVOKABLE void setCurrentIndex(int index);
+//    Q_INVOKABLE int getCurrentMediaIndex();
+//    Q_INVOKABLE void setCurrentIndex(int index);
 
 
     QStringList listSongPath() const;
@@ -97,13 +103,16 @@ public:
     ListSongModel *songModel() const;
     void setSongModel(ListSongModel *newSongModel);
 
+    ListSongModel *videoModel() const;
+    void setVideoModel(ListSongModel *newVideoModel);
+
 public slots:
-    void onCurrentMediaIndexChanged();
+//    void onCurrentMediaIndexChanged();
 
 
 signals:
-    void currentMediaIndexChanged();
-    void mediaIndexChanged();
+//    void currentMediaIndexChanged();
+//    void mediaIndexChanged();
     void positionChanged();
     void durationChanged();
     void listSongPathChanged();
@@ -118,6 +127,8 @@ signals:
 
 
     void songModelChanged();
+
+    void videoModelChanged();
 
 private:
 
@@ -142,10 +153,11 @@ private:
 
 
 
-    ListSongModel *m_songModel = nullptr;
     QVector<SongModel*> songList;
     QVector<SongModel*> videoListModel;
 
+    ListSongModel *m_songModel = nullptr;
+    ListSongModel *m_videoModel = nullptr;
 };
 
 #endif // MEDIACONTROLLER_H

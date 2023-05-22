@@ -103,22 +103,23 @@ Rectangle{
                 width: content.width
                 currentIndex: -1
                 visible: true
-                model:mediaObj.listVideoPath
+                model:mediaObj.videoModel
                 delegate:
                     Rectangle{
                     width: listGlobal.width
                     height: 50
-                    radius: 20
+                    radius: 0
                     border.width: 2
                     border.color: "#F4A460"
+                    clip:true
                     Text{
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 20
                         id: song_title
-                        text:mediaObj.listVideoPath[index]
+                        text:"<b>Title:</b>&nbsp;" + Title + "&nbsp;<b>Artist:</b>&nbsp;" + Artist+ "&nbsp;<b>Album:</b>&nbsp;"+Album;
 
-                        font.pixelSize: 20
+                        font.pixelSize: 15
                         color: index == listGlobal.currentIndex ? "red" : "black"
                         MouseArea{
                             anchors.fill:parent
@@ -127,7 +128,7 @@ Rectangle{
                                 isPlaying=true
                                 mediaObj.setVideoPlay()
 
-                                 mediaObj.playVideo(index);
+                                mediaObj.playVideo(index);
                                 console.log(song_title.text)
 
                             }

@@ -7,6 +7,7 @@ include(dependencies/dependencies.pri)
 SOURCES += \
         Control/mediacontroller.cpp \
         Model/ListSongModel.cpp \
+        Model/ListVideoModel.cpp \
         Model/songmodel.cpp \
         main.cpp
 
@@ -26,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Control/mediacontroller.h \
     Model/ListSongModel.h \
+    Model/ListVideoModel.h \
     Model/songmodel.h
 
 DISTFILES +=

@@ -8,6 +8,7 @@ ListSongModel::ListSongModel(QVector<SongModel*> &songList, QObject *parent)
 
     m_listSong=songList;
 
+
 }
 
 ListSongModel::~ListSongModel()

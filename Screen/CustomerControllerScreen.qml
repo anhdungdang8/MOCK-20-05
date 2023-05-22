@@ -34,7 +34,7 @@ Rectangle{
                     //anchors.centerIn: parent
                     //width: parent.width
                     id: textSong
-                    text:root.songName
+                    text:mediaObj.getMediaTiTle(mediaObj.index)
                     color: "#001C44"
                     font.family:"Tahoma"
                     font.pixelSize: 20
@@ -224,13 +224,9 @@ Rectangle{
 
 
                         }
-                        SliderBar{
-                            id:speedSliderID
-                            width: 50
-                            height: 10
-                            rotation: -90
-                            anchors.verticalCenter: parent.verticalCenter
-                            visible: false
+                        Text {
+                            id: speed
+                            text: qsTr("Rate: ") +speedButton.rate.toString()
                         }
                         ControllerButton{
                             id:speedButton
@@ -240,8 +236,19 @@ Rectangle{
 
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/speed.png"
+                           property real rate: 1.0
                             onButtonCliked: {
-                                speedSliderID.visible=!speedSliderID.visible
+
+                                if(rate<2.0)
+                                {
+                                    rate+=0.25
+                                }
+                                else{
+                                    rate=0.25;
+                                }
+                                speed.text = qsTr("Rate: ") + rate.toString()
+                                mediaObj.adjustSpeedMedia(rate)
+
                             }
 
                         }

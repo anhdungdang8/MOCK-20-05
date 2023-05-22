@@ -95,11 +95,44 @@ QVariantList MediaController::getVideoLocal()
     {
         content.push_back(QUrl::fromLocalFile(directory.path()+"/" + f));
         videoList.push_back(QVariant::fromValue(f));
+
+        TagLib::FileRef r((directory.path()+"/" + f).toLocal8Bit().data());
+        TagLib::Tag* tag =r.tag();
+        SongModel* video = new SongModel;
+        video->setSource((directory.path()+"/" + f).toLocal8Bit().data());
+        video->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
+        video->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
+        video->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
+        videoListModel.push_back(video);
+        qDebug()<<video->getAlbum()<<"\"";
+        qDebug()<<video->getTitle();
+
+
     }
+    m_videoModel= new ListSongModel(videoListModel);
     playVideoList->addMedia(content);
     return videoList;
 
 }
+
+void MediaController::getFolderMusic()
+{
+    QFileDialog dialog;
+
+}
+
+QString MediaController::getMediaTiTle(int indexSong)
+{
+    playMuscList->setCurrentIndex(indexSong);
+    QModelIndex newIndex= m_songModel->index(indexSong,0);
+    QVariant data= m_songModel->data(newIndex,m_songModel->Title);
+    QString tilteSong= data.toString();
+    return tilteSong;
+
+
+}
+
+
 
 QStringList MediaController::listSongPath() const
 {
@@ -178,22 +211,22 @@ void MediaController::setVolume(int newVolume)
 
 }
 
-int MediaController::getCurrentMediaIndex()
-{
-    return playMuscList->currentIndex();
+//int MediaController::getCurrentMediaIndex()
+//{
+//    return playMuscList->currentIndex();
 
-}
+//}
 
-void MediaController::setCurrentIndex(int index)
-{
-    playMuscList->setCurrentIndex(index);
-}
+//void MediaController::setCurrentIndex(int index)
+//{
+//    playMuscList->setCurrentIndex(index);
+//}
 
 
-void MediaController::onCurrentMediaIndexChanged()
-{
-    m_currentMediaIndex=playMuscList->currentIndex();
-}
+//void MediaController::onCurrentMediaIndexChanged()
+//{
+//    m_currentMediaIndex=playMuscList->currentIndex();
+//}
 
 
 void MediaController::pauseMedia()
@@ -263,6 +296,14 @@ void MediaController::shuffleMedia()
 
 }
 
+void MediaController::adjustSpeedMedia(qreal rate)
+{
+
+    player->setPlaybackRate(rate);
+
+
+}
+
 
 
 
@@ -303,4 +344,17 @@ void MediaController::setSongModel(ListSongModel *newSongModel)
     m_songModel = newSongModel;
     emit songModelChanged();
 
+}
+
+ListSongModel *MediaController::videoModel() const
+{
+    return m_videoModel;
+}
+
+void MediaController::setVideoModel(ListSongModel *newVideoModel)
+{
+    if (m_videoModel == newVideoModel)
+        return;
+    m_videoModel = newVideoModel;
+    emit videoModelChanged();
 }
