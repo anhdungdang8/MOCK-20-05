@@ -23,7 +23,7 @@ Rectangle{
 
             Image {
                 id: logoImage
-                source: "qrc:/Icons/Logo.png"
+                source: "qrc:/Icons/Music_.ico"
                 anchors.fill: parent
             }
 
@@ -38,12 +38,7 @@ Rectangle{
         }
         Column{
             spacing:5
-            //        Image {
-            //            id: background
-            //            source: "qrc:/Image/backgroundImage.png"
-            //            height: 30
-            //            width: 30
-            //        }
+
 
 
             MenuButton{

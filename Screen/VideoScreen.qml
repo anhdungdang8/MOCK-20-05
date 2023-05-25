@@ -188,7 +188,12 @@ Rectangle{
                                 TextEdit {
                                     id:textSearch
                                     anchors.fill: parent
-                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    anchors.top: parent.top
+                                    anchors.topMargin: 5
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 5
+                                    height: 20
 
                                     onTextChanged: {
 

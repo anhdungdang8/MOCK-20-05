@@ -60,5 +60,6 @@
         <file>Icons/logoApp.ico</file>
         <file>Icons/Song.ico</file>
         <file>Icons/Music_29918.ico</file>
+        <file>Icons/Music_.ico</file>
     </qresource>
 </RCC>

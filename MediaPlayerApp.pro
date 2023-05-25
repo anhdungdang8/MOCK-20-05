@@ -1,6 +1,6 @@
 QT += quick multimedia widgets core
 CONFIG += c++11
-RC_ICONS +=Icons/Music_29918.ico
+RC_ICONS +=Icons/Music_.ico
 include(dependencies/dependencies.pri)
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
