@@ -3,12 +3,12 @@ import QtQuick 2.15
 Rectangle{
     id:myButton
     width: menuScreen.width-3
-    height: 50
+    height: 40
     radius: 6
     border.color: "#F4A460"
     border.width: 0
 
-    color:"#FAE0C7"
+    color:colorMenuButton
     property alias imgSource: imageID.source
 
     signal buttonClicked()
@@ -18,7 +18,7 @@ Rectangle{
         source: ""
         height: 30
         width: 30
-        anchors.leftMargin: 10
+
         anchors.verticalCenter: parent.verticalCenter
         fillMode: Image.PreserveAspectFit
     }
@@ -32,7 +32,7 @@ Rectangle{
         }
         onEntered: {
             myButton.visible = true
-            myButton.border.width = 4
+            myButton.border.width = 2
         }
 
         onExited: {

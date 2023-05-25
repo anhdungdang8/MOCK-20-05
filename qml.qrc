@@ -61,5 +61,14 @@
         <file>Icons/Song.ico</file>
         <file>Icons/Music_29918.ico</file>
         <file>Icons/Music_.ico</file>
+        <file>Icons/fast_forward_FILL0_wght400_GRAD0_opsz48.png</file>
+        <file>Icons/fast_rewind_FILL0_wght400_GRAD0_opsz48.png</file>
+        <file>Icons/shuffle_FILL0_wght300_GRAD200_opsz48.png</file>
+        <file>Icons/shuffle_on_FILL0_wght300_GRAD200_opsz48.png</file>
+        <file>Icons/repeat_FILL0_wght300_GRAD200_opsz48.png</file>
+        <file>Icons/drag_handle_FILL0_wght200_GRAD200_opsz48.png</file>
+        <file>Screen/SettingScreen.qml</file>
+        <file>Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png</file>
+        <file>Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png</file>
     </qresource>
 </RCC>

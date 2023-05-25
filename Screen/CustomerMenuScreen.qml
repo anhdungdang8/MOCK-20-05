@@ -4,137 +4,139 @@ import "../Component"
 
 Rectangle{
     id:menuScreen
-    color:"#4EB09B"
-    radius: 20
 
-    //property bool statusText: false
-    // property bool checkButton: false
+    color: colorMenuScreen
+//    border.width: 1
+//    border.color: colorBoder
+
+
+
+
+
     Column{
-        spacing: 30
-        anchors.horizontalCenter: parent.horizontalCenter
+        spacing:5
+        anchors.top: parent.top
+        anchors.topMargin: 50
+
+
+
 
         MenuButton{
-            id:logo
-            imgSource: "qrc:/Icons/menu.png"
+            id:homeButton
+            imgSource: "qrc:/Icons/home1.png"
             visible: true
-            width:30
-            height: 30
-            radius: 30
-
-            Image {
-                id: logoImage
-                source: "qrc:/Icons/Music_.ico"
-                anchors.fill: parent
+            Text{
+                font.family:"Tahoma"
+                font.pixelSize: 20
+                color: colorText
+                anchors.left: parent.left
+                anchors.leftMargin: 55
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Home"
+                visible: (statusText||root.width>860)?true:false
             }
-
             onButtonClicked: {
+                loader.active=false
 
-                homeButton.visible =! homeButton.visible
-                musicButton.visible =! musicButton.visible
-                videoButton.visible =! videoButton.visible
-                playlistButton.visible =! playlistButton.visible
+
+
+
+            }
+        }
+        MenuButton{
+            id:musicButton
+            imgSource: "qrc:/Icons/library_music.png"
+            visible: true
+            Text{
+                font.family:"Tahoma"
+                font.pixelSize: 20
+                color: colorText
+                anchors.left: parent.left
+                anchors.leftMargin: 55
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Music List"
+                visible: (statusText||root.width>860)?true:false
+            }
+            onButtonClicked: {
+                isLoad=false
+
+
+
+                loader.active=true
+                loader.source="qrc:/Screen/MusicScreen.qml"
+            }
+        }
+        MenuButton{
+            id:videoButton
+            imgSource: "qrc:/Icons/video_library.png"
+            visible: true
+            Text{
+                font.family:"Tahoma"
+                font.pixelSize: 20
+                color: colorText
+                anchors.left: parent.left
+                anchors.leftMargin: 55
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Video List"
+                visible: (statusText||root.width>860)?true:false
+            }
+            onButtonClicked: {
+                isLoad=true
+
+
+                loader.active=true
+                loader.source="qrc:/Screen/VideoScreen.qml"
             }
 
         }
-        Column{
-            spacing:5
-
-
-
-            MenuButton{
-                id:homeButton
-                imgSource: "qrc:/Icons/home1.png"
-                visible: true
-                Text{
-                    font.family:"Tahoma"
-                    font.pixelSize: 20
-                    color: "#001C44"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 55
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "Home"
-                    visible: (statusText||root.width>860)?true:false
-                }
-                onButtonClicked: {
-                    loader.active=false
-
-
-
-
-                }
+        MenuButton{
+            id:playlistButton
+            imgSource: "qrc:/Icons/queue_music.png"
+            visible: true
+            Text{
+                font.family:"Tahoma"
+                font.pixelSize: 20
+                color: colorText
+                anchors.left: parent.left
+                anchors.leftMargin: 55
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Play List"
+                visible: (statusText||root.width>860)?true:false
             }
-            MenuButton{
-                id:musicButton
-                imgSource: "qrc:/Icons/library_music.png"
-                visible: true
-                Text{
-                    font.family:"Tahoma"
-                    font.pixelSize: 20
-                    color: "#001C44"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 55
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "Music List"
-                    visible: (statusText||root.width>860)?true:false
-                }
-                onButtonClicked: {
-                    isLoad=false
-
-
-
-                    loader.active=true
-                    loader.source="qrc:/Screen/MusicScreen.qml"
-                }
+            onButtonClicked: {
+                loader.active=true
+                loader.source="qrc:/Screen/PlayListScreen.qml"
             }
-            MenuButton{
-                id:videoButton
-                imgSource: "qrc:/Icons/video_library.png"
-                visible: true
-                Text{
-                    font.family:"Tahoma"
-                    font.pixelSize: 20
-                    color: "#001C44"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 55
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "Video List"
-                    visible: (statusText||root.width>860)?true:false
-                }
-                onButtonClicked: {
-                    isLoad=true
-
-
-                    loader.active=true
-                    loader.source="qrc:/Screen/VideoScreen.qml"
-                }
-
-            }
-            MenuButton{
-                id:playlistButton
-                imgSource: "qrc:/Icons/queue_music.png"
-                visible: true
-                Text{
-                    font.family:"Tahoma"
-                    font.pixelSize: 20
-                    color: "#001C44"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 55
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "Play List"
-                    visible: (statusText||root.width>860)?true:false
-                }
-                onButtonClicked: {
-                    loader.active=true
-                    loader.source="qrc:/Screen/PlayListScreen.qml"
-                }
-            }
-
-
-
         }
+
 
 
     }
+    MenuButton{
+        id:settingButton
+        imgSource:"qrc:/Icons/settings.png"
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 25
+        Text{
+            font.family:"Tahoma"
+            font.pixelSize: 20
+            color: colorText
+            anchors.left: parent.left
+            anchors.leftMargin: 55
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Setting"
+            visible: (statusText||root.width>860)?true:false
+        }
+        onButtonClicked: {
+            loader.active=true
+            loader.source="qrc:/Screen/SettingScreen.qml"
+        }
+
+
+
+    }
+
+
 
 
 

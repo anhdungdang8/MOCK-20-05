@@ -5,12 +5,13 @@ import MediaController 1.0
 Rectangle{
     id:controllerScreen
 
-    color:"#C688EB"
+    color:colorControlScreen
     border.width: 1
     border.color: "#F4A460"
 
     property alias sliderBarID: sliderBarID
     property alias volumeSliderID: volumeSliderID
+    property int repeatIndex: 0
 
 
 
@@ -19,41 +20,42 @@ Rectangle{
             id:textArea
             width: controllerScreen.width
             height: 35
-            color:"#4EB09B"
+            color:colorControlScreen
 
             Rectangle{
                 id:textRunArea
-                width: 300
+                width: 400
                 height: textArea.height
-                color:"#4EB09B"
+                color:colorControlScreen
 
                 anchors.centerIn:parent
                 radius: 50
                 clip: true
                 Text{
                     id:textMusic
-                    text: mediaObj.getMusicTitle(mediaObj.index)+"-"+mediaObj.getMusicArtist(mediaObj.index)
+                    text: "<b>"+mediaObj.getMusicTitle(mediaObj.index)+"-"+mediaObj.getMusicArtist(mediaObj.index)
                     visible: false
                 }
                 Text{
                     id:textVideo
-                    text:mediaObj.getVideoTitle(mediaObj.indexVideo)
+                    text:"<b>"+mediaObj.getVideoTitle(mediaObj.indexVideo)
                     visible: false
                 }
 
                 Text{
                     //anchors.centerIn: parent
+
+                    id: textMedia
                     width: parent.width
-                    id: textSong
                     text:isVideo?textVideo.text: textMusic.text
-                    color: "#001C44"
+                    color: colorText
                     font.family:"Tahoma"
                     font.pixelSize: 20
                     //anchors.centerIn: parent
                     anchors.verticalCenter: parent.verticalCenter
 
                     NumberAnimation {
-                        target: textSong
+                        target: textMedia
                         property: "x"
                         loops: Animation.Infinite
                         from: textRunArea.width
@@ -72,14 +74,14 @@ Rectangle{
             height: 40
 
 
-            color:"#4EB09B"
+            color:colorControlScreen
             Row{
                 anchors.centerIn: parent
                 spacing: 10
                 Text{
                     id:timePlayingVideoID
                     text:formatTime(mediaObj.position)
-                    color: "#001C44"
+                    color: colorText
                     font.pixelSize: 15
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -87,6 +89,7 @@ Rectangle{
                     id:sliderBarID
                     anchors.verticalCenter: parent.verticalCenter
                     position:  (mediaObj.position/mediaObj.duration)*(ranger)
+
                     onClicked: {
                         if(positionMouse<ranger)
                         {
@@ -111,7 +114,7 @@ Rectangle{
                 Text{
                     id:timeVideoID
                     text: formatTime(mediaObj.duration)
-                    color: "#001C44"
+                    color: colorText
                     font.pixelSize: 15
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -128,21 +131,21 @@ Rectangle{
                     id:rect1
                     width: 150
                     height: controllerArea.height
-                    color:"#4EB09B"
+                    color:colorControlScreen
                 }
                 Rectangle{
                     id:rect2
                     width: controllerArea.width-rect1.width-170
                     height: controllerArea.height
-                    color:"#4EB09B"
+                    color:colorControlScreen
                     Row{
                         anchors.centerIn: parent
-                        spacing:10
+                        spacing:15
                         ControllerButton{
                             id:shufferButton
 
                             anchors.verticalCenter: parent.verticalCenter
-                            imgSource: isShuffle?"qrc:/Icons/shuffle_F.png":"qrc:/Icons/shuffle_.png"
+                            imgSource: isShuffle?"qrc:/Icons/shuffle_on_FILL0_wght300_GRAD200_opsz48.png":"qrc:/Icons/shuffle_FILL0_wght300_GRAD200_opsz48.png"
                             onButtonCliked: {
                                 mediaObj.shuffleMedia()
 
@@ -156,7 +159,7 @@ Rectangle{
                             id:seekBacKButton
 
                             anchors.verticalCenter: parent.verticalCenter
-                            imgSource: "qrc:/Icons/previous.png"
+                            imgSource: "qrc:/Icons/fast_rewind_FILL0_wght400_GRAD0_opsz48.png"
                             onButtonCliked: {
                                 mediaObj.seekBack()
                             }
@@ -179,9 +182,9 @@ Rectangle{
                         }
                         ControllerButton{
                             id:playButton
-                            width:60
-                            height: 60
-                            radius: 60
+                            width:50
+                            height: 50
+                            radius: 50
                             imgSource: !isPlaying?"qrc:/Icons/Logo.png":"qrc:/Icons/pause imge.png"
                             anchors.verticalCenter: parent.verticalCenter
                             onButtonCliked: {
@@ -210,37 +213,86 @@ Rectangle{
                             id:seekForwardButton
 
                             anchors.verticalCenter: parent.verticalCenter
-                            imgSource: "qrc:/Icons/next.png"
+                            imgSource: "qrc:/Icons/fast_forward_FILL0_wght400_GRAD0_opsz48.png"
                             onButtonCliked: {
                                 mediaObj.seekForward()
                             }
 
                         }
-
-                        ControllerButton{
-                            id:repeatButton
-
+                        ControllerButton {
+                            id: repeatButton
                             anchors.verticalCenter: parent.verticalCenter
-                            color: root.repeatIndex===0?"white":"#4EB09B"
+                            imgSource: "qrc:/Icons/repeat_FILL0_wght300_GRAD200_opsz48.png"
 
-                            imgSource: root.repeatIndex===1?"qrc:/Icons/repeat_one.png":"qrc:/Icons/repeat.png"
-                            onButtonCliked: {
-                                root.repeatIndex+=1
-                                mediaObj.repeatMedia(repeatIndex);
-                                if(root.repeatIndex ===3 )
-                                    root.repeatIndex = 0
+                            Text {
+                                id: buttonText
+                                text: ""
+                                font.pixelSize: 10
 
-
+                                anchors.centerIn: parent
                             }
 
+                           onButtonCliked:  {
+                                repeatIndex += 1
+                                mediaObj.repeatMedia(repeatIndex)
+                                if (repeatIndex === 3)
+                                    repeatIndex = 0
+                                updateButtonText()
+                            }
+
+                            function updateButtonText() {
+                                if (repeatIndex == 1)
+                                    buttonText.text = "1"
+                                else if (repeatIndex == 2)
+                                    buttonText.text = "A"
+                                else
+                                    buttonText.text = ""
+                            }
                         }
+
+
+//                        ControllerButton{
+//                            id:repeatButton
+
+
+//                            anchors.verticalCenter: parent.verticalCenter
+
+//                            imgSource:"qrc:/Icons/repeat.png"
+//                            Text{
+//                                text: {
+//                                    if(repeatIndex==1)
+//                                    {
+//                                        text="1"
+//                                    }
+//                                    else if(repeatIndex==1)
+//                                    {
+//                                        text="l"
+
+//                                    }
+//                                    else{
+//                                        text=""
+//                                    }
+
+//                                }
+//                            }
+
+//                            onButtonCliked: {
+//                                repeatIndex+=1
+//                                mediaObj.repeatMedia(repeatIndex);
+//                                if(repeatIndex ===3 )
+//                                    repeatIndex = 0
+
+
+//                            }
+
+//                        }
                     }
                 }
                 Rectangle{
                     id:rect3
                     width: controllerArea.width-rect1.width-rect2.width
                     height: controllerArea.height
-                    color:"#4EB09B"
+                    color:colorControlScreen
                     Row{
 
                         anchors.verticalCenter: parent.verticalCenter

@@ -19,9 +19,7 @@
 #include <QSortFilterProxyModel>
 #include <QTimer>
 #include <QEventLoop>
-//#include "../Model/ListMusicModel.h"
-//#include "../Model/MediaModel.h"
-//#include "../Model/ListVideoModel.h"
+
 
 #include "ListMusicModel.h"
 #include "MediaModel.h"

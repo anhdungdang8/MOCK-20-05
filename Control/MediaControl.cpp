@@ -249,7 +249,7 @@ QVariantList MediaController::getVideoLocal()
 QString MediaController::getMusicTitle(int indexSong)
 {
 
-    QModelIndex index= m_songModel->index(indexSong,0);  
+    QModelIndex index= m_songModel->index(indexSong,0);
     QVariant data= m_songModel->data(index,m_songModel->Songs::TitleSongs);
     QString tilteSong= data.toString();
     return tilteSong;
@@ -604,7 +604,7 @@ void MediaController::repeatMedia(int repeatIndex)
         playMusicList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
         playVideoList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     }
-    else{
+    else if(repeatIndex==2){
         playMusicList->setPlaybackMode(QMediaPlaylist::Loop);
         playVideoList->setPlaybackMode(QMediaPlaylist::Loop);
 

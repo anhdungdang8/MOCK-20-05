@@ -7,6 +7,7 @@ Rectangle{
     anchors.right: parent.right
     property int zCoverArt: coverArt.z
     property int zVideoOutPut: videoID.z
+    color: colorMediaScreen
 
 
 
@@ -56,7 +57,7 @@ Rectangle{
         id:videoID
         source: mediaObj
         anchors.fill: parent
-        fillMode: VideoOutput.PreserveAspectCrop
+        fillMode: VideoOutput.PreserveAspectFit
           }
 
 

@@ -1,5 +1,6 @@
 
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import "../Component"
 import MediaController 1.0
 
@@ -11,7 +12,7 @@ Rectangle{
     id:videoScreen
     width: mediaScreen.width
     height: mediaScreen.height
-    color: "#F4A460"
+    color: colorMediaScreen
 
 
     property alias contentArea: content
@@ -26,28 +27,28 @@ Rectangle{
         Rectangle{
             id:titleArea
             width: videoScreen.width
-            height:62
-            color:"#4EB09B"
-            radius: 20
-            border.width: 1
-            border.color: "#F4A460"
+            height:100
+            color: colorMediaScreen
+
+
+
 
             Rectangle{
                 id:nameArea
                 height: titleArea.height
-                width: 100
-                color:"#4EB09B"
-                radius: 20
-                border.width: 1
-                border.color: "#F4A460"
+                width: 150
+                color: colorMediaScreen
+
+
+
 
                 Text{
                     id:textHome
                     text: "VIDEO"
-                    font.pointSize: 17
+                    font.pointSize: 25
                     anchors.centerIn: parent
                     font.family:"Tahoma"
-                    color: "#001C44"
+                    color: colorText
 
                 }
             }
@@ -57,10 +58,10 @@ Rectangle{
                 id:folderArea
                 height: titleArea.height
                 width: titleArea.width-nameArea.width
-                color:"#4EB09B"
-                radius: 20
-                border.width: 1
-                border.color: "#F4A460"
+                color: colorMediaScreen
+
+
+
                 anchors.right: parent.right
                 Row{
                     anchors.verticalCenter: parent.verticalCenter
@@ -77,16 +78,16 @@ Rectangle{
                             anchors.left: parent.left
                             anchors.leftMargin: 30
                             anchors.verticalCenter: parent.verticalCenter
-                            color: "#001C44"
+                            color: colorText
 
                         }
                         onButtonClicked: {
                             mediaObj.getFolderVideo()
-                            listGlobal.visible=false
+
 
 
                             loaderID2.source =""
-                            loaderID2.source = "qrc:/Screen/ListVideo.qml"
+                            loaderID2.source = "qrc:/Screen/ListSong.qml"
                             console.log("1")
 
 
@@ -103,11 +104,11 @@ Rectangle{
                             anchors.left: parent.left
                             anchors.leftMargin: 30
                             anchors.verticalCenter: parent.verticalCenter
-                            color: "#001C44"
+                            color: colorText
 
                         }
                         onButtonClicked: {
-                            //listViewArea.visible=!listViewArea.visible
+
                         }
                     }
 
@@ -120,11 +121,12 @@ Rectangle{
                             Text{
                                 text: "Title"
                                 anchors.centerIn: parent
-                                color: "#001C44"
+                                color: colorText
 
                             }
                             onButtonClicked: {
                                 softTitle=!softTitle
+
                                 mediaObj.sortTitleVideo(softTitle)
 
                             }
@@ -134,13 +136,16 @@ Rectangle{
                             width: 60
                             height: 30
                             Text{
-                                text: "Album"
+                                text:"Album"
                                 anchors.centerIn: parent
-                                color: "#001C44"
+                                color: colorText
 
                             }
                             onButtonClicked: {
                                 softAlbum=!softAlbum
+
+
+
                                 mediaObj.sortAlbumVideo(softAlbum)
 
                             }
@@ -152,11 +157,13 @@ Rectangle{
                             Text{
                                 text: "Artist"
                                 anchors.centerIn: parent
-                                color: "#001C44"
+                                color: colorText
 
                             }
                             onButtonClicked: {
                                 softArtist=!softArtist
+
+
                                 mediaObj.sortArtistVideo(softArtist)
 
                             }
@@ -174,9 +181,9 @@ Rectangle{
                                 width:30
                                 height: 30
                                 imgSource: "qrc:/Icons/search.png"
-//                                onButtonClicked: {
-//                                    mediaObj.filterVideo(textFilter);
-//                                }
+                                //                                onButtonClicked: {
+                                //                                    mediaObj.filterMusic(textFilter);
+                                //                                }
 
                             }
                             Rectangle{
@@ -188,12 +195,13 @@ Rectangle{
                                 TextEdit {
                                     id:textSearch
                                     anchors.fill: parent
-
                                     anchors.top: parent.top
                                     anchors.topMargin: 5
                                     anchors.left: parent.left
                                     anchors.leftMargin: 5
                                     height: 20
+
+
 
                                     onTextChanged: {
 
@@ -220,170 +228,160 @@ Rectangle{
             id:content
             width: videoScreen.width
             height:videoScreen.height-titleArea.height
-            //            color: "#a8e40f"
+            color: colorMediaScreen
             clip: true
             ListView
             {
-                id:listGlobal
+                spacing: 5
+                id:listGlobalVideo
                 height: content.height
                 width: content.width
                 currentIndex: -1
                 visible: true
-
-                model:mediaObj.proxyVideo
-                delegate:
-                    Rectangle{
-
-                    id:listRect
-                    width: listGlobal.width
-                    height: 50
-                    radius: 5
-                    border.width: 2
-                    border.color: "#F4A460"
-
-                    Row{
+                ScrollBar.vertical: ScrollBar {
+                    visible: true
 
 
-                        Rectangle{
-                            id:dataRect
-
-                            width: listRect.width-100
-                            height: listRect.height
-                            border.width: 2
-                            border.color: "#F4A460"
-                            Column{
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.left: parent.left
-                                anchors.leftMargin: 20
-                                spacing: 5
-                                Text{
-                                    text:  index+1+"."+ TitleVideo
-                                    font.pixelSize: 20
-                                    color:"Green"
-
-
-                                }
-                                Text{
-                                    text:"&nbsp;<b>Artist:</b>&nbsp;" + ArtistVideo+ "&nbsp;<b>Album:</b>&nbsp;" + AlbumVideo;
-                                    font.pixelSize: 15
-                                    color:  "black"
-
-                                }
-
-                            }
-
-
-                            MouseArea{
-                                anchors.fill:parent
-                                hoverEnabled: true
-
-                                onEntered: {
-
-                                    dataRect.color = "#F4A460"
-                                }
-
-                                onExited: {
-
-                                    dataRect.color="white"
-
-                                }
-                                onClicked: {
-                                    listGlobal.currentIndex = index
-
-
-
-                                    isPlaying=true
-                                    isVideo=true
-
-                                    mediaObj.setVideoPlay()
-
-                                    mediaObj.playVideo(IndexVideo);
-                                    mediaObj.setIndexVideo(IndexVideo);
-
-
-
-
-
-                                }
-                            }
-
-
-                        }
-
-                        Rectangle{
-                            id:buttonRect
-
-                            width: listRect.width-dataRect.width
-                            height: listRect.height
-                            border.width: 2
-                            border.color: "#F4A460"
-
-                            Row{
-                                spacing: 10
-                                anchors.centerIn: parent
-                                ControllerButton{
-                                    id:addFavoriteButton
-                                    imgSource: "qrc:/Icons/favorite.png"
-                                    width: 40
-                                    height: 40
-                                    radius: 40
-                                    MouseArea{
-                                        anchors.fill:parent
-                                        hoverEnabled: true
-
-                                        onEntered: {
-
-                                            addFavoriteButton.color = "#F4A460"
-                                        }
-
-                                        onExited: {
-
-                                            addFavoriteButton.color="white"
-
-                                        }
-
-                                    }
-
-
-                                }
-                                ControllerButton{
-                                    id:deleteButton
-                                    imgSource: "qrc:/Icons/delete_.png"
-                                    width: 40
-                                    height: 40
-                                    radius: 40
-                                    MouseArea{
-                                        anchors.fill:parent
-                                        hoverEnabled: true
-
-                                        onEntered: {
-
-                                            deleteButton.color = "#F4A460"
-                                        }
-
-                                        onExited: {
-
-                                            deleteButton.color="white"
-
-                                        }
-                                        onClicked: {
-                                            mediaObj.removeVideo(index);
-
-
-                                        }
-                                    }
-
-
-
-
-                                }
-
-
-                            }
-
+                    contentItem: Item {
+                        implicitWidth: 7
+                        implicitHeight: 5
+                        Rectangle {
+                            color: "#8b9dc3"
+                            anchors.fill: parent
+                            radius: 5
 
                         }
                     }
+                }
+                model:mediaObj.proxyVideo
+                delegate:
+
+                    Rectangle{
+
+                    id:listRect
+                    width: listGlobalVideo.width
+                    height: 100
+                    radius: 10
+                    color: colorListView
+
+                    MouseArea{
+                        anchors.fill:parent
+                        hoverEnabled: true
+
+                        onEntered: {
+
+                            listRect.color = "#8b9dc3"
+                        }
+
+                        onExited: {
+
+                            listRect.color=colorListView
+
+
+
+
+
+                        }
+                        onClicked: {
+                            listGlobalVideo.currentIndex = index
+                            isPlaying=true
+                            isVideo=true
+                            mediaObj.setVideoPlay()
+                            mediaObj.playVideo(IndexVideo);
+                            mediaObj.setIndexVideo(IndexVideo);
+                            loader.active=false
+
+                        }
+                    }
+                    Column{
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        spacing: 5
+                        Text{
+                            text:  index+1+"."+ TitleVideo
+                            font.pixelSize: 30
+                            color:"Green"
+
+
+                        }
+                        Text{
+                            text:"&nbsp;<b>Artist:</b>&nbsp;" + ArtistVideo+ "&nbsp;<b>Album:</b>&nbsp;" + AlbumVideo;
+                            font.pixelSize: 20
+                            color:  "black"
+
+                        }
+
+                    }
+
+
+
+
+
+
+
+
+                    Row{
+                        spacing: 10
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 15
+
+                        ControllerButton{
+                            id:addFavoriteButton
+                            imgSource: "qrc:/Icons/favorite.png"
+                            width: 20
+                            height: 20
+                            radius: 20
+                            visible: false
+                        }
+                        ControllerButton{
+                            id:deleteButton
+                            imgSource: "qrc:/Icons/delete_.png"
+                            width: 20
+                            height: 20
+                            radius: 20
+                            visible: false
+                            onButtonCliked: {
+                                mediaObj.removeVideo(index)
+
+                            }
+
+
+
+
+                        }
+                        ControllerButton{
+                            id:hideButton
+
+                            height: 20
+                            width: 20
+                            radius: 10
+
+
+
+                            Image{
+                                height: 10
+                                width: 10
+                                source: "qrc:/Icons/drag_handle_FILL0_wght200_GRAD200_opsz48.png"
+                                anchors.centerIn: parent
+                                fillMode: Image.PreserveAspectFit
+                            }
+
+
+
+                            onButtonCliked: {
+                                addFavoriteButton.visible =!addFavoriteButton.visible
+                                deleteButton.visible=!deleteButton.visible
+                            }
+                        }
+
+
+
+
+
+                    }
+
 
 
                 }

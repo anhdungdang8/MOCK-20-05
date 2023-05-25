@@ -2,10 +2,11 @@ import QtQuick 2.15
 Rectangle{
     id:sliderBarID
     width: root.width-200
-    height: 10
-    radius: 20
-    border.width: 3
+    height: 7
+    radius: 23
+    border.width: 1
     border.color: "#F4A460"
+    color:colorSlider
     property alias  position: handleID.x
     property real ranger:sliderBarID.width - handleID.width
     property real positionMouse
@@ -28,7 +29,11 @@ Rectangle{
         width: 20
         height: 20
         radius: 20
-       color: "#F4A460"
+       color: colorHandle
+       border.width: 5
+       border.color: colorBoder
+       z:1
+
         anchors.verticalCenter: sliderBarID.verticalCenter
         MouseArea{
             id:mouseArea1
