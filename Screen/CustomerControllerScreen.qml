@@ -20,6 +20,7 @@ Rectangle{
             width: controllerScreen.width
             height: 35
             color:"#4EB09B"
+
             Rectangle{
                 id:textRunArea
                 width: 300
@@ -28,27 +29,38 @@ Rectangle{
 
                 anchors.centerIn:parent
                 radius: 50
-                // clip: true
+                clip: true
+                Text{
+                    id:textMusic
+                    text: mediaObj.getMusicTitle(mediaObj.index)+"-"+mediaObj.getMusicArtist(mediaObj.index)
+                    visible: false
+                }
+                Text{
+                    id:textVideo
+                    text:mediaObj.getVideoTitle(mediaObj.indexVideo)
+                    visible: false
+                }
 
                 Text{
                     //anchors.centerIn: parent
-                    //width: parent.width
+                    width: parent.width
                     id: textSong
-                    text:mediaObj.getMediaTiTle(mediaObj.index)
+                    text:isVideo?textVideo.text: textMusic.text
                     color: "#001C44"
                     font.family:"Tahoma"
                     font.pixelSize: 20
-                    anchors.centerIn: parent
+                    //anchors.centerIn: parent
+                    anchors.verticalCenter: parent.verticalCenter
 
-                    //                    NumberAnimation {
-                    //                        target: textSong
-                    //                        property: "x"
-                    //                        loops: Animation.Infinite
-                    //                        from: textRunArea.width
-                    //                        to: -textRunArea.width
-                    //                        duration: 5000
-                    //                        running: true
-                    //                    }
+                    NumberAnimation {
+                        target: textSong
+                        property: "x"
+                        loops: Animation.Infinite
+                        from: textRunArea.width
+                        to: -textRunArea.width
+                        duration: 5000
+                        running: true
+                    }
                 }
 
             }
@@ -58,6 +70,7 @@ Rectangle{
             id:sliderArea
             width: controllerScreen.width
             height: 40
+
 
             color:"#4EB09B"
             Row{
@@ -75,11 +88,22 @@ Rectangle{
                     anchors.verticalCenter: parent.verticalCenter
                     position:  (mediaObj.position/mediaObj.duration)*(ranger)
                     onClicked: {
-                        mediaObj.position= (mediaObj.duration)*(position/ranger)
+                        if(positionMouse<ranger)
+                        {
+                            mediaObj.position= (mediaObj.duration)*(positionMouse/ranger)
+
+                        }
+                        else
+                        {
+                            mediaObj.position=mediaObj.duration
+
+                        }
+
+
 
                     }
                     onDragged: {
-                       //media.onPositionChanged(position*(media.duration)/ranger)
+                        //media.onPositionChanged(position*(media.duration)/ranger)
                         mediaObj.position= (mediaObj.duration)*(position/ranger)
                     }
                 }
@@ -116,13 +140,11 @@ Rectangle{
                         spacing:10
                         ControllerButton{
                             id:shufferButton
-                            width: 40
-                            height: 40
-                            radius: 40
+
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: isShuffle?"qrc:/Icons/shuffle_F.png":"qrc:/Icons/shuffle_.png"
                             onButtonCliked: {
-                               mediaObj.shuffleMedia()
+                                mediaObj.shuffleMedia()
 
                                 isShuffle=!isShuffle
 
@@ -131,14 +153,24 @@ Rectangle{
 
                         }
                         ControllerButton{
+                            id:seekBacKButton
+
+                            anchors.verticalCenter: parent.verticalCenter
+                            imgSource: "qrc:/Icons/previous.png"
+                            onButtonCliked: {
+                                mediaObj.seekBack()
+                            }
+
+                        }
+
+                        ControllerButton{
                             id:previousButton
-                            width: 40
-                            height: 40
-                            radius: 40
+
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/skip_previous.png"
                             onButtonCliked: {
-                              mediaObj.previousMedia()
+                                mediaObj.previousMedia()
+
 
 
 
@@ -147,6 +179,9 @@ Rectangle{
                         }
                         ControllerButton{
                             id:playButton
+                            width:60
+                            height: 60
+                            radius: 60
                             imgSource: !isPlaying?"qrc:/Icons/Logo.png":"qrc:/Icons/pause imge.png"
                             anchors.verticalCenter: parent.verticalCenter
                             onButtonCliked: {
@@ -158,26 +193,43 @@ Rectangle{
                         }
                         ControllerButton{
                             id:nextButton
-                            width: 40
-                            height: 40
-                            radius: 40
+
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/skip_next.png"
                             onButtonCliked: {
-                              mediaObj.nextMedia()
+                                mediaObj.nextMedia()
+
+
+
+
 
                             }
 
                         }
                         ControllerButton{
-                            id:repeatButton
-                            width: 40
-                            height: 40
-                            radius: 40
+                            id:seekForwardButton
+
                             anchors.verticalCenter: parent.verticalCenter
-                            imgSource: "qrc:/Icons/repeat.png"
+                            imgSource: "qrc:/Icons/next.png"
                             onButtonCliked: {
-                                mediaObj.repeatMedia()
+                                mediaObj.seekForward()
+                            }
+
+                        }
+
+                        ControllerButton{
+                            id:repeatButton
+
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: root.repeatIndex===0?"white":"#4EB09B"
+
+                            imgSource: root.repeatIndex===1?"qrc:/Icons/repeat_one.png":"qrc:/Icons/repeat.png"
+                            onButtonCliked: {
+                                root.repeatIndex+=1
+                                mediaObj.repeatMedia(repeatIndex);
+                                if(root.repeatIndex ===3 )
+                                    root.repeatIndex = 0
+
 
                             }
 
@@ -193,7 +245,7 @@ Rectangle{
 
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.centerIn: parent
-                        spacing: 10
+                        spacing: 5
                         SliderBar{
                             id:volumeSliderID
                             width: 50
@@ -202,7 +254,7 @@ Rectangle{
                             anchors.verticalCenter: parent.verticalCenter
                             position: mediaObj.volume*ranger/100
                             onClicked: {
-                               mediaObj.volume=position/ranger*100
+                                mediaObj.volume=position/ranger*100
                             }
 
                             onDragged: {
@@ -213,9 +265,7 @@ Rectangle{
                         }
                         ControllerButton{
                             id:volumeButton
-                            width: 40
-                            height: 40
-                            radius: 40
+
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: !statusVolume? "qrc:/Icons/volume_up.png":"qrc:/Icons/volume_off.png"
                             onButtonCliked: {
@@ -224,19 +274,22 @@ Rectangle{
 
 
                         }
-                        Text {
-                            id: speed
-                            text: qsTr("Rate: ") +speedButton.rate.toString()
-                        }
+
+
                         ControllerButton{
                             id:speedButton
-                            width: 40
-                            height: 40
-                            radius: 40
+
 
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/speed.png"
-                           property real rate: 1.0
+                            property real rate: 1.0
+                            Text {
+                                anchors.bottom: speedButton.top
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                id: speed
+                                text: speedButton.rate.toString()+"x"
+                            }
+
                             onButtonCliked: {
 
                                 if(rate<2.0)
@@ -246,13 +299,14 @@ Rectangle{
                                 else{
                                     rate=0.25;
                                 }
-                                speed.text = qsTr("Rate: ") + rate.toString()
+                                speed.text =  rate.toString()+"x"
                                 mediaObj.adjustSpeedMedia(rate)
 
                             }
 
                         }
                     }
+
 
                 }
             }

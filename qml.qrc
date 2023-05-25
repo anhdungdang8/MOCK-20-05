@@ -52,5 +52,13 @@
         <file>Icons/shuffle_.png</file>
         <file>Icons/shuffle_on.png</file>
         <file>Icons/shuffle_F.png</file>
+        <file>Icons/delete_.png</file>
+        <file>Icons/repeat_onepng.png</file>
+        <file>Screen/ListVideo.qml</file>
+        <file>Icons/sort_by_alpha_FILL0_wght200_GRAD0_opsz24.png</file>
+        <file>Icons/sortAZ.png</file>
+        <file>Icons/logoApp.ico</file>
+        <file>Icons/Song.ico</file>
+        <file>Icons/Music_29918.ico</file>
     </qresource>
 </RCC>

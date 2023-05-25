@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import MediaController 1.0
+import "../Component"
 
 
 Item {
@@ -7,45 +8,145 @@ Item {
 
     ListView
     {
-        id:listLocal
+        id:listFolder
         height: content.height
         width: content.width
         currentIndex: -1
-
-        //model:mediaObj.listSongPath
-        model:mediaObj.songModel
-
+        visible: true
+        model:mediaObj.proxy
         delegate:
             Rectangle{
-            width: listLocal.width
+            id:listRect
+            width: listGlobal.width
             height: 50
-            radius: 20
+            radius: 5
             border.width: 2
             border.color: "#F4A460"
-            Text{
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                id: song_title
-                //text:mediaObj.listSongPath[index]
-                text:"<b>Title:</b>&nbsp;" + Title + "&nbsp;<b>Artist:</b>&nbsp;" + Artist;
+            Row{
 
-                font.pixelSize: 20
-                color: index == listLocal.currentIndex ? "red" : "black"
-                MouseArea{
-                    anchors.fill:parent
-                    onClicked: {
-                        listLocal.currentIndex = index
-                        isPlaying =true
-                        mediaObj.playMedia(index);
-                        console.log(song_title.text)
+
+                Rectangle{
+                    id:dataRect
+
+                    width: listRect.width-100
+                    height: listRect.height
+                    border.width: 2
+                    border.color: "#F4A460"
+                    Column{
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        spacing: 10
+                        Text{
+
+                            id: song_title
+                            text:  index+1+"."+  TitleSongs
+                            font.pixelSize: 20
+                            color:  "green"
+
+
+                        }
+                        Text{
+
+                            text:  "&nbsp;<b>Artist:</b>&nbsp;" + ArtistSongs+"&nbsp;<b>Album:</b>&nbsp;" + AlbumSongs;
+                            font.pixelSize: 15
+                            color: "black"
+
+                        }
+                    }
+
+
+                    MouseArea{
+                        anchors.fill:parent
+                        hoverEnabled: true
+
+                        onEntered: {
+
+                            dataRect.color = "#F4A460"
+                        }
+
+                        onExited: {
+
+                            dataRect.color="white"
+
+                        }
+                        onClicked: {
+                            listGlobal.currentIndex = index
+                            isPlaying=true
+                            isVideo=false
+
+                            mediaObj.setMusicPlay()
+
+                            mediaObj.playMusic(IndexSongs)
+                            mediaObj.setIndex(IndexSongs)
+                             mediaObj.setSource(SourceSongs);
+                            console.log(song_title.text)
+
+                        }
+                    }
+
+
+                }
+
+                Rectangle{
+                    id:buttonRect
+
+                    width: listRect.width-dataRect.width
+                    height: listRect.height
+                    border.width: 2
+                    border.color: "#F4A460"
+
+                    Row{
+                        spacing: 10
+                        anchors.centerIn: parent
+                        ControllerButton{
+                            id:addFavoriteButton
+                            imgSource: "qrc:/Icons/favorite.png"
+                            width: 40
+                            height: 40
+                            radius: 40
+
+
+                        }
+                        ControllerButton{
+                            id:deleteButton
+                            imgSource: "qrc:/Icons/delete_.png"
+                            width: 40
+                            height: 40
+                            radius: 40
+                            MouseArea{
+                                anchors.fill:parent
+                                hoverEnabled: true
+
+                                onEntered: {
+
+                                    deleteButton.color = "#F4A460"
+                                }
+
+                                onExited: {
+
+                                    deleteButton.color="white"
+
+                                }
+                                onClicked: {
+                                    mediaObj.removeMusic(index);
+
+
+                                }
+                            }
+
+
+
+
+                        }
+
 
                     }
+
+
                 }
             }
+
         }
-
-
     }
-
 }

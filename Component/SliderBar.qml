@@ -8,25 +8,15 @@ Rectangle{
     border.color: "#F4A460"
     property alias  position: handleID.x
     property real ranger:sliderBarID.width - handleID.width
+    property real positionMouse
     signal clicked()
     signal dragged()
 
     MouseArea{
         anchors.fill: parent
         onClicked: {
-            if(mouseX>sliderBarID.width-handleID.width/2)
-            {
-                position=mouseX-handleID.width
-            }
-            else if(mouseX<handleID.width/2)
-            {
-                position=0
-            }
-            else{
-               position=mouseX
+            positionMouse=mouseX
 
-
-            }
             sliderBarID.clicked()
 
         }

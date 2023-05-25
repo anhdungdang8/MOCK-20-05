@@ -28,7 +28,7 @@ Rectangle{
             }
 
             onButtonClicked: {
-                searchButton.visible =! searchButton.visible
+
                 homeButton.visible =! homeButton.visible
                 musicButton.visible =! musicButton.visible
                 videoButton.visible =! videoButton.visible
@@ -45,22 +45,7 @@ Rectangle{
             //            width: 30
             //        }
 
-            MenuButton{
-                id:searchButton
-                imgSource: "qrc:/Icons/search.png"
-                visible: true
-                Text{
-                    font.family:"Tahoma"
-                    font.pixelSize: 20
-                    color: "#001C44"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 55
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "Search"
-                    visible: (statusText||root.width>860)?true:false
-                }
 
-            }
             MenuButton{
                 id:homeButton
                 imgSource: "qrc:/Icons/home1.png"
@@ -77,6 +62,7 @@ Rectangle{
                 }
                 onButtonClicked: {
                     loader.active=false
+
 
 
 
@@ -100,6 +86,7 @@ Rectangle{
                     isLoad=false
 
 
+
                     loader.active=true
                     loader.source="qrc:/Screen/MusicScreen.qml"
                 }
@@ -120,6 +107,7 @@ Rectangle{
                 }
                 onButtonClicked: {
                     isLoad=true
+
 
                     loader.active=true
                     loader.source="qrc:/Screen/VideoScreen.qml"

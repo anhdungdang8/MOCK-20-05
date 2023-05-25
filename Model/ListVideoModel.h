@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <QDebug>
 #include <QAbstractListModel>
-#include "SongModel.h"
+#include "MediaModel.h"
 
 #include <QObject>
 
@@ -20,12 +20,13 @@ class ListVideoModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit ListVideoModel(QVector<SongModel*> &videoListModel,QObject *parent = nullptr);
-    enum Roles {
-        Title = Qt::UserRole+1,
-        Artist,
-        Album,
-        Source,
+    explicit ListVideoModel(QVector<MediaModel*> &videoListModel,QObject *parent = nullptr);
+    enum Videos {
+        TitleVideo = Qt::UserRole+1,
+        ArtistVideo,
+        AlbumVideo,
+        SourceVideo,
+        IndexVideo,
         //Duration,
 
 
@@ -35,11 +36,13 @@ public:
     int rowCount(const QModelIndex& parent) const override;
     QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     QHash<int, QByteArray> roleNames() const override;
+    void removeVideoModel(int index);
+
 
 
 signals:
 private:
-    QVector<SongModel*> m_listVideo;
+    QVector<MediaModel*> m_listVideo;
 
 };
 

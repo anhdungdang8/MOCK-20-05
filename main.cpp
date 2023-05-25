@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "Control/mediacontroller.h"
+#include "Control/MediaControl.h"
 #include <QApplication>
 #include <QQmlContext>
 
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 //    MediaController mediaObj;
 //    QQmlContext* context=  engine.rootContext();
 //    context->setContextProperty("mediaObj",&mediaObj);
-    qmlRegisterType<MediaController>("MediaController",1,0,"MediaController");
+   qmlRegisterType<MediaController>("MediaController",1,0,"MediaController");
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

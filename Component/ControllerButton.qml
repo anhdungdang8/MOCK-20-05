@@ -3,9 +3,10 @@ import QtQuick 2.15
 
 Rectangle{
     id:myControllerButton
-    width:70
-    height: 70
-    radius: 70
+
+    width: 40
+    height: 40
+    radius: 40
     border.width: 3
     border.color: "#FBC193"
     //color:"transparent"
@@ -16,8 +17,8 @@ Rectangle{
     Image {
         id: imageID1
         source: ""
-        //anchors.centerIn: parent
-        anchors.fill: parent
+        anchors.centerIn: parent
+        //anchors.fill: parent
         fillMode: Image.PreserveAspectFit
         height: 30
         width: 30

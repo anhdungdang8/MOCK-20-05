@@ -9,14 +9,15 @@ import MediaController 1.0
 
 
 
+
 import "./Screen"
 
 Window {
     id:root
-    width: 760
+    width: 860
     height: 600
     minimumHeight: 390
-    minimumWidth: 600
+    minimumWidth: 680
     visible: true
     color: "#F4A460"
     title: qsTr("Media Player")
@@ -31,7 +32,14 @@ Window {
     property var value
     property string sourceImageCover: ""
     property bool isLoad: false
-     property bool isShuffleEnabled: false
+    property bool isShuffleEnabled: false
+    property bool isVideo: false
+    property bool isColor:false
+
+    property int repeatIndex: 0
+    property bool softtype: false
+
+
     MediaController{
         id:mediaObj
     }
@@ -70,9 +78,9 @@ Window {
 
 
     }
-    onIsShuffleEnabledChanged: {
-        QmlInterface.setShuffle(isShuffleEnabled);
-    }
+
+
+
 
 
 

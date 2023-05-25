@@ -3,13 +3,14 @@ import QtQuick 2.15
 Rectangle{
     id:myButton
     width: menuScreen.width-3
-    height: 30
+    height: 50
     radius: 6
     border.color: "#F4A460"
     border.width: 0
 
     color:"#FAE0C7"
     property alias imgSource: imageID.source
+
     signal buttonClicked()
 
     Image {
@@ -18,8 +19,11 @@ Rectangle{
         height: 30
         width: 30
         anchors.leftMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
         fillMode: Image.PreserveAspectFit
     }
+
+
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
