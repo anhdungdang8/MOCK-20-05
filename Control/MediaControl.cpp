@@ -12,8 +12,6 @@ MediaController::MediaController(QObject *parent)
     playVideoList= new QMediaPlaylist;
     m_proxyMusic= new QSortFilterProxyModel;
     m_proxyVideo=new QSortFilterProxyModel;
-
-
     player->setVolume(50);
 
     connect(player, &QMediaPlayer::volumeChanged, this, &MediaController::volumeChanged);
@@ -22,17 +20,8 @@ MediaController::MediaController(QObject *parent)
     connect(playMusicList,&QMediaPlaylist::currentIndexChanged,this,&MediaController::setIndexMediaChanged);
     connect(playVideoList,&QMediaPlaylist::currentIndexChanged,this,&MediaController::setIndexMediaChanged);
 
-
     getMusicLocal();
-
     getVideoLocal();
-
-
-
-
-
-
-
 }
 
 MediaController::~MediaController()
@@ -41,30 +30,26 @@ MediaController::~MediaController()
     delete playMusicList;
     delete playVideoList;
     delete m_proxyMusic;
+    delete m_proxyVideo;
 
 }
 
 QVariantList MediaController::getMusicLocal()
 {
 
-    qDebug()<<"oke oke";
-
     QDir m_musicPath;
-    m_musicPath.setPath(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).at(0));
+    m_musicPath.setPath(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).at(0));// set path in music location
     QDir directory(m_musicPath);
-    m_listSongPath = directory.entryList(QStringList() << "*.mp3" << "*.MP3",QDir::Files);
-
+    m_listSongPath = directory.entryList(QStringList() << "*.mp3" << "*.MP3",QDir::Files);// find files has format mp3, MP3
     QList<QMediaContent> content;
-
     for (int i = 0; i < m_listSongPath.size(); ++i)
     {
+        //push path into vector and QVariantList
         const QString& f = m_listSongPath[i];
-
-
         content.push_back(QUrl::fromLocalFile(directory.path()+"/" + f));
         musicList.push_back(QVariant::fromValue(f));
 
-        qDebug()<<f;
+        //get meta data of music
         TagLib::FileRef r((directory.path()+"/" + f).toLocal8Bit().data());
         TagLib::Tag* tag =r.tag();
         MediaModel* song = new MediaModel;
@@ -73,71 +58,51 @@ QVariantList MediaController::getMusicLocal()
         song->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
         song->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
         song->setIndex(i);
-        songListModel.push_back(song);
-        qDebug()<<song->getAlbum()<<"\"";
-        qDebug()<<song->getTitle();
-        qDebug()<<song->getIndex();
-
-
-
-        qDebug()<<songListModel;
-
-
+        songListModel.push_back(song); //push model into  QVector<MediaModel*>
     }
-
     m_songModel=new ListMusicModel(songListModel);
-    m_proxyMusic->setSourceModel(m_songModel);
+    m_proxyMusic->setSourceModel(m_songModel);//proxy get source of ListMusicModel
     playMusicList->addMedia(content);
-
     return musicList;
-
-
 
 }
 void MediaController::getFolderMusic()
 {
-
-    for(int i=0;i<songListModel.size();++i)
-    {
-        delete songListModel[i];
-    }
-    songListModel.clear();
-    playMusicList->clear();
-    qDebug()<<"A";
     QFileDialog dialog;
     dialog.setFileMode(QFileDialog::Directory);
-    QString folderPath = dialog.getExistingDirectory(nullptr, "Open Folder", "/home");
-    qDebug()<<folderPath;
+    QString folderPath = dialog.getExistingDirectory(nullptr, "Open Folder", "/home");// open folder has path /home
     if (!folderPath.isEmpty())
     {
+        // Clear the models only when a valid folder path is selected
+        songListModel.clear();
+        playMusicList->clear();
+
+
+        //get path has mp3, MP3 format
         QDir folder(folderPath);
         QStringList filters;
         filters << "*.mp3" << "*.MP3";
         QStringList filePath = folder.entryList(filters, QDir::Files);
-
         QList<QMediaContent> content;
-
-            for(int i=0;i<filePath.size();i++)
-            {const QString& fileName=filePath[i];
-
+        for (int i = 0; i < filePath.size(); i++)
+        {
+            const QString& fileName = filePath[i];
             QString fullPath = folder.filePath(fileName);
 
+            //get metadata of media
             TagLib::FileRef f(fullPath.toLocal8Bit().data());
             TagLib::Tag* tag = f.tag();
-            if (!tag)
-            {
-                continue;
-            }
-
+//            if (!tag)
+//            {
+//                continue;
+//            }
             MediaModel* song = new MediaModel;
             song->setSource(fullPath.toStdString().c_str());
             song->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
             song->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
             song->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
-             song->setIndex(i);
-             qDebug()<<song->getIndex();
+            song->setIndex(i);
             songListModel.push_back(song);
-
             content.push_back(QMediaContent(QUrl::fromLocalFile(fullPath)));
         }
 
@@ -145,74 +110,17 @@ void MediaController::getFolderMusic()
         m_proxyMusic->setSourceModel(m_songModel);
         playMusicList->addMedia(content);
     }
-
-
-
-
 }
 
-void MediaController::getFolderVideo()
-{
-    for (int i=0;i< videoListModel.size();++i)
-    {
-        delete videoListModel[i];
-    }
-    videoListModel.clear();
-    playVideoList->clear();
-    qDebug()<<"A";
-    QFileDialog dialog;
-    dialog.setFileMode(QFileDialog::Directory);
-    QString folderPath = dialog.getExistingDirectory(nullptr, "Open Folder", "/home");
-    if (!folderPath.isEmpty())
-    {
-        QDir folder(folderPath);
-        QStringList filters;
-        filters << "*.mp4" << "*.MP4";
-        QStringList filePath = folder.entryList(filters, QDir::Files);
 
-
-        QList<QMediaContent> content;
-
-        for(int i=0;i<filePath.size();++i)
-        {
-            const QString& fileName =filePath[i];
-
-            QString fullPath = folder.filePath(fileName);
-
-            TagLib::FileRef f(fullPath.toLocal8Bit().data());
-            TagLib::Tag* tag = f.tag();
-            if (!tag)
-            {
-                continue;
-            }
-
-            MediaModel* video = new MediaModel;
-            video->setSource(fullPath.toStdString().c_str());
-            video->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
-            video->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
-            video->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
-            video->setIndex(i);
-            videoListModel.push_back(video);
-
-            content.push_back(QMediaContent(QUrl::fromLocalFile(fullPath)));
-        }
-
-        m_videoModel = new ListVideoModel(videoListModel);
-        m_proxyVideo->setSourceModel(m_videoModel);
-
-        playVideoList->addMedia(content);
-    }
-
-
-}
 
 QVariantList MediaController::getVideoLocal()
 {
 
     QDir m_videoPath;
-    m_videoPath.setPath(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).at(0));
+    m_videoPath.setPath(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).at(0));// set path in movie location
     QDir directory(m_videoPath);
-    m_listVideoPath = directory.entryList(QStringList() << "*.mp4" << "*.MP4",QDir::Files);
+    m_listVideoPath = directory.entryList(QStringList() << "*.mp4" << "*.MP4",QDir::Files);// find files has format mp4, MP4
 
     QList<QMediaContent> content;
         for(int i=0;i<m_listVideoPath.size();++i)
@@ -221,7 +129,7 @@ QVariantList MediaController::getVideoLocal()
 
         content.push_back(QUrl::fromLocalFile(directory.path()+"/" + f));
         videoList.push_back(QVariant::fromValue(f));
-
+        //get metadata of video
         TagLib::FileRef r((directory.path()+"/" + f).toLocal8Bit().data());
         TagLib::Tag* tag =r.tag();
         MediaModel* video = new MediaModel;
@@ -231,20 +139,54 @@ QVariantList MediaController::getVideoLocal()
         video->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
         video->setIndex(i);
         videoListModel.push_back(video);
-        qDebug()<<video->getAlbum()<<"\"";
-        qDebug()<<video->getTitle();
-
-
     }
     m_videoModel= new ListVideoModel(videoListModel);
      m_proxyVideo->setSourceModel(m_videoModel);
-
     playVideoList->addMedia(content);
     return videoList;
 
 }
+void MediaController::getFolderVideo()
+{
 
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::Directory);
+    QString folderPath = dialog.getExistingDirectory(nullptr, "Open Folder", "/home");
+    if (!folderPath.isEmpty())
+    {
+         // Clear the models only when a valid folder path is selected
+        videoListModel.clear();
+        playVideoList->clear();
+        QDir folder(folderPath);
+        QStringList filters;
+        filters << "*.mp4" << "*.MP4";
+        QStringList filePath = folder.entryList(filters, QDir::Files);
+        QList<QMediaContent> content;
+        for(int i=0;i<filePath.size();++i)
+        {
+            const QString& fileName =filePath[i];
+            QString fullPath = folder.filePath(fileName);
+            TagLib::FileRef f(fullPath.toLocal8Bit().data());
+            TagLib::Tag* tag = f.tag();
+//            if (!tag)
+//            {
+//                continue;
+//            }
+            MediaModel* video = new MediaModel;
+            video->setSource(fullPath.toStdString().c_str());
+            video->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
+            video->setArtist(QString::fromStdString(tag->artist().to8Bit(true)));
+            video->setAlbum(QString::fromStdString(tag->album().to8Bit(true)));
+            video->setIndex(i);
+            videoListModel.push_back(video);
+            content.push_back(QMediaContent(QUrl::fromLocalFile(fullPath)));
+        }
+        m_videoModel = new ListVideoModel(videoListModel);
+        m_proxyVideo->setSourceModel(m_videoModel);
+        playVideoList->addMedia(content);
+    }
 
+}
 
 QString MediaController::getMusicTitle(int indexSong)
 {
@@ -322,11 +264,7 @@ void MediaController::setVideoPlay()
 
 void MediaController::seekForward()
 {
-
-
-
     player->setPosition(player->position()+5000);
-
 }
 
 void MediaController::seekBack()
@@ -346,8 +284,6 @@ void MediaController::removeMusic(int index)
     else
     {
        player->play();
-       //setIndex(index);
-
     }
 
 }
@@ -533,28 +469,18 @@ void MediaController::pauseMedia()
 
 void MediaController::playMusic(int index)
 {
-
-
-
     playMusicList->setCurrentIndex(index);
-
-
-
-
     player->play();
-     qDebug()<<"index: "<<index;
+
 }
 
 
 void MediaController::playVideo(int index)
 {
 
-
-
     playVideoList->setCurrentIndex(index);
-
     player->play();
-    qDebug()<<"Aaaa"<<index;
+
 }
 
 void MediaController::resumeMedia()
@@ -566,16 +492,7 @@ void MediaController::resumeMedia()
 void MediaController::nextMedia()
 {
     playVideoList->next();
-
     playMusicList->next();
-    //setIndex(ListMusicModel::IndexSongs);
-
-
-
-
-
-
-
     player->play();
 
 
@@ -585,8 +502,6 @@ void MediaController::previousMedia()
 {
     playMusicList->previous();
     playVideoList->previous();
-
-
 
 }
 
@@ -627,15 +542,9 @@ void MediaController::shuffleMedia()
 
 void MediaController::adjustSpeedMedia(qreal rate)
 {
-
     player->setPlaybackRate(rate);
 
-
 }
-
-
-
-
 
 
 QAbstractVideoSurface *MediaController::videoSurface() const
@@ -649,9 +558,8 @@ void MediaController::setVideoSurface(QAbstractVideoSurface *newVideoSurface)
         return;
     m_videoSurface = newVideoSurface;
     player->setVideoOutput(m_videoSurface);
-
     emit videoSurfaceChanged();
-    qDebug()<<"oke111";
+
 }
 
 
@@ -695,6 +603,10 @@ int MediaController::index() const
 
 void MediaController::setIndex(int newIndex)
 {
+//    QModelIndex index = m_songModel->index(m_index,0);
+//    QVariant data = m_songModel->data(index,m_songModel->ListMusicModel::Songs::SourceSongs);
+//    QString source= data.toString();
+//    setSource(source);
     if (m_index == newIndex)
         return;
     if(newIndex>playMusicList->mediaCount()-1)
@@ -744,8 +656,6 @@ void MediaController::setIndexVideo(int newIndexVideo)
 }
 
 
-
-
 void MediaController::setIndexMediaChanged()
 {
     setIndex(playMusicList->currentIndex());
@@ -754,9 +664,6 @@ void MediaController::setIndexMediaChanged()
     QVariant data = m_songModel->data(index,m_songModel->ListMusicModel::Songs::SourceSongs);
     QString source= data.toString();
     setSource(source);
-
-
-
 }
 
 QSortFilterProxyModel *MediaController::proxyMusic() const

@@ -14,9 +14,8 @@ Rectangle{
     color: colorMediaScreen
 
 
-    property alias contentArea: content
+    property alias content: content
     property alias textFilter: textSearch.text
-
     property bool softTitle: false
     property bool softAlbum: false
     property bool softArtist: false
@@ -28,19 +27,11 @@ Rectangle{
             width: musicScreen.width
             height:100
             color: colorMediaScreen
-
-
-
-
             Rectangle{
                 id:nameArea
                 height: titleArea.height
                 width: 150
                 color: colorMediaScreen
-
-
-
-
                 Text{
                     id:textHome
                     text: "MUSIC"
@@ -51,20 +42,14 @@ Rectangle{
 
                 }
             }
-
-
             Rectangle{
                 id:folderArea
                 height: titleArea.height
                 width: titleArea.width-nameArea.width
                 color: colorMediaScreen
-
-
-
                 anchors.right: parent.right
                 Row{
                     anchors.verticalCenter: parent.verticalCenter
-                    //anchors.centerIn: parent
                     spacing: 10
                     anchors.left: parent.left
                     anchors.leftMargin: 10
@@ -83,15 +68,9 @@ Rectangle{
                         }
                         onButtonClicked: {
                             mediaObj.getFolderMusic()
-
-
-
+                            loaderID1.active=false
                             loaderID1.source =""
                             loaderID1.source = "qrc:/Screen/ListSong.qml"
-                            console.log("1")
-
-
-
                         }
                     }
                     MenuButton{
@@ -108,7 +87,6 @@ Rectangle{
 
                         }
                         onButtonClicked: {
-                            //listViewArea.visible=!listViewArea.visible
                         }
                     }
 
@@ -143,9 +121,6 @@ Rectangle{
                             }
                             onButtonClicked: {
                                 softAlbum=!softAlbum
-
-
-
                                 mediaObj.sortAlbumMusic(softAlbum)
 
                             }
@@ -162,10 +137,7 @@ Rectangle{
                             }
                             onButtonClicked: {
                                 softArtist=!softArtist
-
-
                                 mediaObj.sortArtistMusic(softArtist)
-
                             }
                         }
                     }
@@ -181,9 +153,6 @@ Rectangle{
                                 width:30
                                 height: 30
                                 imgSource: "qrc:/Icons/search.png"
-                                //                                onButtonClicked: {
-                                //                                    mediaObj.filterMusic(textFilter);
-                                //                                }
 
                             }
                             Rectangle{
@@ -191,18 +160,14 @@ Rectangle{
                                 height: searchArea.height
                                 radius: 10
 
-
                                 TextEdit {
                                     id:textSearch
                                     anchors.fill: parent
                                     anchors.top: parent.top
-                                    anchors.topMargin: 5
+                                    anchors.topMargin: 7
                                     anchors.left: parent.left
                                     anchors.leftMargin: 5
                                     height: 20
-
-
-
                                     onTextChanged: {
 
                                         mediaObj.filterMusic(textFilter);
@@ -219,8 +184,6 @@ Rectangle{
                     }
 
                 }
-
-
 
             }
         }
@@ -240,8 +203,6 @@ Rectangle{
                 visible: true
                 ScrollBar.vertical: ScrollBar {
                     visible: true
-
-
                     contentItem: Item {
                         implicitWidth: 7
                         implicitHeight: 5
@@ -275,12 +236,7 @@ Rectangle{
 
                         onExited: {
 
-                                    listRect.color=colorListView
-
-
-
-
-
+                            listRect.color=colorListView
                         }
                         onClicked: {
                             listGlobal.currentIndex = index
@@ -302,8 +258,6 @@ Rectangle{
                             text:  index+1+"."+ TitleSongs
                             font.pixelSize: 30
                             color:"Green"
-
-
                         }
                         Text{
                             text:"&nbsp;<b>Artist:</b>&nbsp;" + ArtistSongs+ "&nbsp;<b>Album:</b>&nbsp;" + AlbumSongs;
@@ -313,13 +267,6 @@ Rectangle{
                         }
 
                     }
-
-
-
-
-
-
-
 
                     Row{
                         spacing: 10
@@ -343,12 +290,9 @@ Rectangle{
                             radius: 20
                             visible: false
                             onButtonCliked: {
-                                 mediaObj.removeMusic(index)
+                                mediaObj.removeMusic(index)
 
                             }
-
-
-
 
                         }
                         ControllerButton{
@@ -358,17 +302,13 @@ Rectangle{
                             width: 20
                             radius: 10
 
-
-
                             Image{
                                 height: 10
                                 width: 10
                                 source: "qrc:/Icons/drag_handle_FILL0_wght200_GRAD200_opsz48.png"
                                 anchors.centerIn: parent
-                               fillMode: Image.PreserveAspectFit
+                                fillMode: Image.PreserveAspectFit
                             }
-
-
 
                             onButtonCliked: {
                                 addFavoriteButton.visible =!addFavoriteButton.visible
@@ -376,13 +316,7 @@ Rectangle{
                             }
                         }
 
-
-
-
-
                     }
-
-
 
                 }
 

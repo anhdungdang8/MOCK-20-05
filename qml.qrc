@@ -3,7 +3,6 @@
         <file>main.qml</file>
         <file>Component/ControllerButton.qml</file>
         <file>Component/MenuButton.qml</file>
-        <file>Component/ScrollText.qml</file>
         <file>Component/SliderBar.qml</file>
         <file>Screen/CustomerMediaScreen.qml</file>
         <file>Screen/CustomerMenuScreen.qml</file>

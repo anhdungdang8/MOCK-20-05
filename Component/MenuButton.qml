@@ -1,7 +1,7 @@
 import QtQuick 2.15
 
 Rectangle{
-    id:myButton
+    id:menuButton
     width: menuScreen.width-3
     height: 40
     radius: 6
@@ -18,33 +18,28 @@ Rectangle{
         source: ""
         height: 30
         width: 30
-
         anchors.verticalCenter: parent.verticalCenter
         fillMode: Image.PreserveAspectFit
     }
-
-
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
-            myButton.buttonClicked()
+            menuButton.buttonClicked()
         }
         onEntered: {
-            myButton.visible = true
-            myButton.border.width = 2
+            menuButton.visible = true
+            menuButton.border.width = 2
         }
-
         onExited: {
-
-            myButton.border.width = 0
+            menuButton.border.width = 0
 
         }
         onPressed: {
-            myButton.scale=0.75
+            menuButton.scale=0.75
         }
         onReleased: {
-             myButton.scale=1
+             menuButton.scale=1
 
         }
 

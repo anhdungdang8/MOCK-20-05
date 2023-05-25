@@ -17,13 +17,9 @@ Rectangle{
         anchors.fill: parent
         onClicked: {
             positionMouse=mouseX
-
             sliderBarID.clicked()
-
         }
-
     }
-
     Rectangle{
         id:handleID
         width: 20

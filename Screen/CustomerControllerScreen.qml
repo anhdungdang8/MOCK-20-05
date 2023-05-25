@@ -4,30 +4,23 @@ import MediaController 1.0
 
 Rectangle{
     id:controllerScreen
-
     color:colorControlScreen
     border.width: 1
     border.color: "#F4A460"
-
     property alias sliderBarID: sliderBarID
-    property alias volumeSliderID: volumeSliderID
+    property alias volumeSliderID: volumeSlider
     property int repeatIndex: 0
-
-
-
     Column{
         Rectangle{
             id:textArea
             width: controllerScreen.width
             height: 35
             color:colorControlScreen
-
             Rectangle{
                 id:textRunArea
                 width: 400
                 height: textArea.height
                 color:colorControlScreen
-
                 anchors.centerIn:parent
                 radius: 50
                 clip: true
@@ -41,19 +34,14 @@ Rectangle{
                     text:"<b>"+mediaObj.getVideoTitle(mediaObj.indexVideo)
                     visible: false
                 }
-
                 Text{
-                    //anchors.centerIn: parent
-
                     id: textMedia
                     width: parent.width
                     text:isVideo?textVideo.text: textMusic.text
                     color: colorText
                     font.family:"Tahoma"
                     font.pixelSize: 20
-                    //anchors.centerIn: parent
                     anchors.verticalCenter: parent.verticalCenter
-
                     NumberAnimation {
                         target: textMedia
                         property: "x"
@@ -72,8 +60,6 @@ Rectangle{
             id:sliderArea
             width: controllerScreen.width
             height: 40
-
-
             color:colorControlScreen
             Row{
                 anchors.centerIn: parent
@@ -88,29 +74,21 @@ Rectangle{
                 SliderBar{
                     id:sliderBarID
                     anchors.verticalCenter: parent.verticalCenter
-                    position:  (mediaObj.position/mediaObj.duration)*(ranger)
-
+                    position:  (mediaObj.position/mediaObj.duration)*(ranger)//get postion of media in width of slider,
                     onClicked: {
                         if(positionMouse<ranger)
                         {
-                            mediaObj.position= (mediaObj.duration)*(positionMouse/ranger)
-
+                            mediaObj.position= (mediaObj.duration)*(positionMouse/ranger)// ranger =sliderBarID.width - handleID.width
                         }
                         else
                         {
                             mediaObj.position=mediaObj.duration
-
                         }
-
-
-
                     }
                     onDragged: {
-                        //media.onPositionChanged(position*(media.duration)/ranger)
                         mediaObj.position= (mediaObj.duration)*(position/ranger)
                     }
                 }
-
                 Text{
                     id:timeVideoID
                     text: formatTime(mediaObj.duration)
@@ -124,9 +102,7 @@ Rectangle{
             id:controllerArea
             width: controllerScreen.width
             height: controllerScreen.height-sliderArea.height-textArea.height
-
             Row{
-                //anchors.centerIn: parent
                 Rectangle{
                     id:rect1
                     width: 150
@@ -143,29 +119,21 @@ Rectangle{
                         spacing:15
                         ControllerButton{
                             id:shufferButton
-
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: isShuffle?"qrc:/Icons/shuffle_on_FILL0_wght300_GRAD200_opsz48.png":"qrc:/Icons/shuffle_FILL0_wght300_GRAD200_opsz48.png"
                             onButtonCliked: {
                                 mediaObj.shuffleMedia()
-
                                 isShuffle=!isShuffle
-
                             }
-
-
                         }
                         ControllerButton{
                             id:seekBacKButton
-
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/fast_rewind_FILL0_wght400_GRAD0_opsz48.png"
                             onButtonCliked: {
                                 mediaObj.seekBack()
                             }
-
                         }
-
                         ControllerButton{
                             id:previousButton
 
@@ -173,12 +141,7 @@ Rectangle{
                             imgSource: "qrc:/Icons/skip_previous.png"
                             onButtonCliked: {
                                 mediaObj.previousMedia()
-
-
-
-
                             }
-
                         }
                         ControllerButton{
                             id:playButton
@@ -191,8 +154,6 @@ Rectangle{
                                 !isPlaying?mediaObj.resumeMedia(): mediaObj.pauseMedia()
                                 isPlaying =!isPlaying
                             }
-
-
                         }
                         ControllerButton{
                             id:nextButton
@@ -201,17 +162,11 @@ Rectangle{
                             imgSource: "qrc:/Icons/skip_next.png"
                             onButtonCliked: {
                                 mediaObj.nextMedia()
-
-
-
-
-
                             }
 
                         }
                         ControllerButton{
                             id:seekForwardButton
-
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/fast_forward_FILL0_wght400_GRAD0_opsz48.png"
                             onButtonCliked: {
@@ -223,15 +178,12 @@ Rectangle{
                             id: repeatButton
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/repeat_FILL0_wght300_GRAD200_opsz48.png"
-
                             Text {
                                 id: buttonText
                                 text: ""
                                 font.pixelSize: 10
-
                                 anchors.centerIn: parent
                             }
-
                            onButtonCliked:  {
                                 repeatIndex += 1
                                 mediaObj.repeatMedia(repeatIndex)
@@ -240,7 +192,7 @@ Rectangle{
                                 updateButtonText()
                             }
 
-                            function updateButtonText() {
+                            function updateButtonText() {// to update status text of repeatButton
                                 if (repeatIndex == 1)
                                     buttonText.text = "1"
                                 else if (repeatIndex == 2)
@@ -250,42 +202,6 @@ Rectangle{
                             }
                         }
 
-
-//                        ControllerButton{
-//                            id:repeatButton
-
-
-//                            anchors.verticalCenter: parent.verticalCenter
-
-//                            imgSource:"qrc:/Icons/repeat.png"
-//                            Text{
-//                                text: {
-//                                    if(repeatIndex==1)
-//                                    {
-//                                        text="1"
-//                                    }
-//                                    else if(repeatIndex==1)
-//                                    {
-//                                        text="l"
-
-//                                    }
-//                                    else{
-//                                        text=""
-//                                    }
-
-//                                }
-//                            }
-
-//                            onButtonCliked: {
-//                                repeatIndex+=1
-//                                mediaObj.repeatMedia(repeatIndex);
-//                                if(repeatIndex ===3 )
-//                                    repeatIndex = 0
-
-
-//                            }
-
-//                        }
                     }
                 }
                 Rectangle{
@@ -299,7 +215,7 @@ Rectangle{
                         anchors.centerIn: parent
                         spacing: 5
                         SliderBar{
-                            id:volumeSliderID
+                            id:volumeSlider
                             width: 50
                             height: 10
                             rotation: -90
@@ -308,7 +224,6 @@ Rectangle{
                             onClicked: {
                                 mediaObj.volume=position/ranger*100
                             }
-
                             onDragged: {
                                 mediaObj.volume=position/ranger*100
                                 position/ranger===0?statusVolume=true:statusVolume=false
@@ -317,21 +232,14 @@ Rectangle{
                         }
                         ControllerButton{
                             id:volumeButton
-
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: !statusVolume? "qrc:/Icons/volume_up.png":"qrc:/Icons/volume_off.png"
                             onButtonCliked: {
-                                volumeSliderID.visible=!volumeSliderID.visible
+                                volumeSlider.visible=!volumeSlider.visible
                             }
-
-
                         }
-
-
                         ControllerButton{
                             id:speedButton
-
-
                             anchors.verticalCenter: parent.verticalCenter
                             imgSource: "qrc:/Icons/speed.png"
                             property real rate: 1.0
@@ -365,7 +273,7 @@ Rectangle{
 
         }
     }
-    function formatTime(milliseconds) {
+    function formatTime(milliseconds) {//caculate duration of media
         var totalSeconds = Math.floor(milliseconds / 1000);
         var minutes = Math.floor(totalSeconds / 60);
         var seconds = totalSeconds % 60;

@@ -4,23 +4,11 @@ import "../Component"
 
 Rectangle{
     id:menuScreen
-
     color: colorMenuScreen
-//    border.width: 1
-//    border.color: colorBoder
-
-
-
-
-
     Column{
         spacing:5
         anchors.top: parent.top
         anchors.topMargin: 50
-
-
-
-
         MenuButton{
             id:homeButton
             imgSource: "qrc:/Icons/home1.png"
@@ -37,10 +25,6 @@ Rectangle{
             }
             onButtonClicked: {
                 loader.active=false
-
-
-
-
             }
         }
         MenuButton{
@@ -59,9 +43,6 @@ Rectangle{
             }
             onButtonClicked: {
                 isLoad=false
-
-
-
                 loader.active=true
                 loader.source="qrc:/Screen/MusicScreen.qml"
             }
@@ -82,12 +63,9 @@ Rectangle{
             }
             onButtonClicked: {
                 isLoad=true
-
-
                 loader.active=true
                 loader.source="qrc:/Screen/VideoScreen.qml"
             }
-
         }
         MenuButton{
             id:playlistButton
@@ -108,9 +86,6 @@ Rectangle{
                 loader.source="qrc:/Screen/PlayListScreen.qml"
             }
         }
-
-
-
     }
     MenuButton{
         id:settingButton
@@ -132,14 +107,7 @@ Rectangle{
             loader.source="qrc:/Screen/SettingScreen.qml"
         }
 
-
-
     }
-
-
-
-
-
 
 }
 
