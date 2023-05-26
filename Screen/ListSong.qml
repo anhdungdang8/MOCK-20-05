@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import MediaController 1.0
+
 import "../Component"
 import QtQuick.Controls 2.15
 

@@ -17,7 +17,10 @@
 #include <QBuffer>
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
+#include <QQmlApplicationEngine>
+#include <QCoreApplication>
 #include <QTimer>
+#include <QTranslator>
 #include <QEventLoop>
 #include "ListMusicModel.h"
 #include "MediaModel.h"
@@ -96,6 +99,9 @@ public:
     Q_INVOKABLE void setIndex(int newIndex);
     Q_INVOKABLE void setIndexVideo(int newIndexVideo);
 
+    Q_INVOKABLE void transtoVietNamese();
+    Q_INVOKABLE void transtoEnglish();
+
     qint64 position() const;
     qint64 duration() const;
     void setPosition(qint64 newPosition);
@@ -126,6 +132,8 @@ public:
 
     QSortFilterProxyModel *proxyVideo() const;
     void setProxyVideo(QSortFilterProxyModel *newProxyVideo);
+    void initEngine();
+    QQmlContext* getRootContext();
 
 public slots:
     void setIndexMediaChanged();
@@ -170,6 +178,12 @@ private:
     QSortFilterProxyModel *m_proxyVideo = nullptr;
 
     QImage m_currentCoverArt;
+
+    QQmlApplicationEngine engine;
+    QQmlContext* context;
+    QTranslator* m_translatorVietNam=nullptr;
+     QTranslator* m_translatorEnglish=nullptr;
+
     int m_index;
     int m_indexVideo;
     int m_repeatIndex = 0;

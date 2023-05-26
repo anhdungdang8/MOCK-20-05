@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../Component"
-import MediaController 1.0
+
 
 
 
@@ -12,6 +12,8 @@ Rectangle{
     color: colorMediaScreen
     property bool isOnLight: false
     property bool isOnDark: false
+    property bool isEnglish: false
+    property bool isVietNamese: false
 
     Column{
         Rectangle{
@@ -26,7 +28,7 @@ Rectangle{
                 color: colorMediaScreen
                 Text{
                     id:textHome
-                    text: "SETTING"
+                    text: qsTr("SETTING")
                     font.pointSize: 25
                     anchors.centerIn: parent
                     font.family:"Tahoma"
@@ -46,7 +48,7 @@ Rectangle{
                 Column{
                     spacing: 20
                     Text{
-                        text:"Themes"
+                        text:qsTr("Themes")
                         font.pointSize: 15
                         font.family:"Tahoma"
                         color: colorText
@@ -56,13 +58,13 @@ Rectangle{
                         width: 120
                         height: 50
                         Text{
-                            text: "Dark"
+                            text: qsTr("Dark")
                             anchors.left: parent.left
                             anchors.leftMargin: 40
                             anchors.verticalCenter: parent.verticalCenter
                             color: colorText
                         }
-                        imgSource: isOnDark?"qrc:/Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png":"qrc:/Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png"
+                        imgSource: isOnDark?"qrc:/Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png":"qrc:/Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png"
                         onButtonClicked: {
                             isOnDark=true
                             isOnLight=false
@@ -75,14 +77,14 @@ Rectangle{
                         width: 120
                         height: 50
                         Text{
-                            text: "Light"
+                            text: qsTr("Light")
                             anchors.left: parent.left
 
                             anchors.leftMargin: 40
                             anchors.verticalCenter: parent.verticalCenter
                             color: colorText
                         }
-                        imgSource: isOnLight?"qrc:/Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png":"qrc:/Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png"
+                        imgSource: isOnLight?"qrc:/Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png":"qrc:/Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png"
                         onButtonClicked: {
                             colorCheck=false
                             isOnLight=true
@@ -93,38 +95,50 @@ Rectangle{
                 Column{
                     spacing: 20
                     Text{
-                        text:"Language"
+                        text:qsTr("Language")
                         font.pointSize: 15
                         font.family:"Tahoma"
                         color: colorText
 
                     }
                     MenuButton{
-                        id:vnChangeButton
+                        id:enChangeButton
                         width: 120
                         height: 50
+                         imgSource: isEnglish?"qrc:/Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png":"qrc:/Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png"
                         Text{
-                            text: "English"
+                            text:qsTr("English")
                             anchors.left: parent.left
                             anchors.leftMargin: 40
                             anchors.verticalCenter: parent.verticalCenter
                             color: colorText
 
                         }
+                        onButtonClicked:{
+                            mediaObj.transtoEnglish()
+                            isEnglish=true
+                            isVietNamese=false
+                        }
                     }
                     MenuButton{
-                        id:enChangeButton
+                        id:vnChangeButton
 
                         width: 120
                         height: 50
+                         imgSource: isVietNamese?"qrc:/Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png":"qrc:/Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png"
                         Text{
-                            text: "VietNamese"
+                            text: qsTr("VietNamese")
                             anchors.left: parent.left
 
                             anchors.leftMargin: 40
                             anchors.verticalCenter: parent.verticalCenter
                             color: colorText
 
+                        }
+                        onButtonClicked:{
+                            mediaObj.transtoVietNamese()
+                            isVietNamese=true
+                            isEnglish=false
                         }
 
                     }

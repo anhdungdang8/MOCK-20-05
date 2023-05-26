@@ -15,6 +15,9 @@ SOURCES += \
 
 RESOURCES += qml.qrc
 
+TRANSLATIONS += vi.ts
+TRANSLATIONS += en.ts
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -37,5 +40,7 @@ HEADERS += \
     Model/ListVideoModel.h \
     Model/MediaModel.h
 
-DISTFILES +=
+DISTFILES += \
+    vi.qm \
+    en.qm
 

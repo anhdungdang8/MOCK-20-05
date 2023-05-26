@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../Component"
-import MediaController 1.0
+
 
 
 
@@ -34,7 +34,7 @@ Rectangle{
                 color: colorMediaScreen
                 Text{
                     id:textHome
-                    text: "MUSIC"
+                    text: qsTr("MUSIC")
                     font.pointSize: 25
                     anchors.centerIn: parent
                     font.family:"Tahoma"
@@ -59,7 +59,7 @@ Rectangle{
                         width: 85
                         height: 30
                         Text{
-                            text: "Folder"
+                             text: qsTr("Folder")
                             anchors.left: parent.left
                             anchors.leftMargin: 30
                             anchors.verticalCenter: parent.verticalCenter
@@ -79,7 +79,7 @@ Rectangle{
                         width: 85
                         height: 30
                         Text{
-                            text: " Favorite"
+                            text: qsTr(" Favorite")
                             anchors.left: parent.left
                             anchors.leftMargin: 30
                             anchors.verticalCenter: parent.verticalCenter
@@ -91,13 +91,14 @@ Rectangle{
                     }
 
                     Row{
+                         spacing: 2
 
                         MenuButton{
                             id:sortTitleButton
                             width: 60
                             height: 30
                             Text{
-                                text: "Title"
+                                text: qsTr("Songs")
                                 anchors.centerIn: parent
                                 color: colorText
 
@@ -114,7 +115,7 @@ Rectangle{
                             width: 60
                             height: 30
                             Text{
-                                text:"Album"
+                               text:qsTr("Album")
                                 anchors.centerIn: parent
                                 color: colorText
 
@@ -130,7 +131,7 @@ Rectangle{
                             width: 60
                             height: 30
                             Text{
-                                text: "Artist"
+                                text: qsTr("Artist")
                                 anchors.centerIn: parent
                                 color: colorText
 

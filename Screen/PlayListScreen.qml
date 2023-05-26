@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../Component"
-import MediaController 1.0
+
 
 
 
@@ -23,7 +23,7 @@ Rectangle{
                 color: colorMediaScreen
                 Text{
                     id:textHome
-                    text: "PLAY LIST"
+                    text: qsTr("PLAY LIST")
                     font.pointSize: 25
                     anchors.centerIn: parent
                     font.family:"Tahoma"

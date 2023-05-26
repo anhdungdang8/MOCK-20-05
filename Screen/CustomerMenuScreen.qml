@@ -20,7 +20,7 @@ Rectangle{
                 anchors.left: parent.left
                 anchors.leftMargin: 55
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Home"
+                text: qsTr("Home")
                 visible: (statusText||root.width>860)?true:false
             }
             onButtonClicked: {
@@ -38,7 +38,7 @@ Rectangle{
                 anchors.left: parent.left
                 anchors.leftMargin: 55
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Music List"
+                text: qsTr("Music")
                 visible: (statusText||root.width>860)?true:false
             }
             onButtonClicked: {
@@ -58,7 +58,7 @@ Rectangle{
                 anchors.left: parent.left
                 anchors.leftMargin: 55
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Video List"
+                text: qsTr("Video")
                 visible: (statusText||root.width>860)?true:false
             }
             onButtonClicked: {
@@ -78,7 +78,7 @@ Rectangle{
                 anchors.left: parent.left
                 anchors.leftMargin: 55
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Play List"
+                text: qsTr("Play List")
                 visible: (statusText||root.width>860)?true:false
             }
             onButtonClicked: {
@@ -99,7 +99,7 @@ Rectangle{
             anchors.left: parent.left
             anchors.leftMargin: 55
             anchors.verticalCenter: parent.verticalCenter
-            text: "Setting"
+            text: qsTr("Setting")
             visible: (statusText||root.width>860)?true:false
         }
         onButtonClicked: {

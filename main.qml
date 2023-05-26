@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtMultimedia 5.15
-import MediaController 1.0
+
 
 
 
@@ -54,9 +54,6 @@ Window {
 
 
 
-    MediaController{
-        id:mediaObj
-    }
 
     CustomerMenuScreen{
         id:menuScreen

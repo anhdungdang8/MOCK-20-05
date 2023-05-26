@@ -12,6 +12,8 @@ MediaController::MediaController(QObject *parent)
     playVideoList= new QMediaPlaylist;
     m_proxyMusic= new QSortFilterProxyModel;
     m_proxyVideo=new QSortFilterProxyModel;
+    m_translatorVietNam= new QTranslator;
+    m_translatorEnglish= new QTranslator;
     player->setVolume(50);
 
     connect(player, &QMediaPlayer::volumeChanged, this, &MediaController::volumeChanged);
@@ -655,6 +657,38 @@ void MediaController::setIndexVideo(int newIndexVideo)
     emit indexVideoChanged();
 }
 
+void MediaController::transtoVietNamese()
+{
+    if(!m_translatorVietNam)
+    {
+        m_translatorVietNam= new QTranslator;
+    }
+    qDebug()<<m_translatorVietNam->load(":/vi.qm");
+    if(m_translatorEnglish){
+         qApp->removeTranslator(m_translatorEnglish);
+    }
+    qApp->installTranslator(m_translatorVietNam);
+    engine.retranslate();
+
+}
+
+void MediaController::transtoEnglish()
+{
+    if(!m_translatorEnglish)
+    {
+        m_translatorEnglish= new QTranslator;
+    }
+   qDebug()<< m_translatorEnglish->load(":/en.qm");
+
+    if(m_translatorVietNam){
+         qApp->removeTranslator(m_translatorVietNam);
+
+    }
+    qApp->installTranslator(m_translatorEnglish);
+    engine.retranslate();
+
+}
+
 
 void MediaController::setIndexMediaChanged()
 {
@@ -664,6 +698,22 @@ void MediaController::setIndexMediaChanged()
     QVariant data = m_songModel->data(index,m_songModel->ListMusicModel::Songs::SourceSongs);
     QString source= data.toString();
     setSource(source);
+}
+
+void MediaController::initEngine()
+{
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     qApp, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+    engine.load(url);
+}
+
+QQmlContext *MediaController::getRootContext()
+{
+    return engine.rootContext();
 }
 
 QSortFilterProxyModel *MediaController::proxyMusic() const
