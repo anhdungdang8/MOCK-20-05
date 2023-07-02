@@ -71,6 +71,7 @@ Item {
                             mediaObj.setVideoPlay()
                             mediaObj.playVideo(IndexVideo);
                             mediaObj.setIndexVideo(IndexVideo);
+                            isShowCoverArt=true
                             loader.active=false
                         }
                     }

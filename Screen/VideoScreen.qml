@@ -10,7 +10,7 @@ Rectangle{
     color: colorMediaScreen
 
     property alias contentArea: content
-    property alias textVideoFilter: textSearch.text
+    property alias textVideoFilter: textSearchVideo.text
     property bool softTitle: false
     property bool softAlbum: false
     property bool softArtist: false
@@ -141,13 +141,17 @@ Rectangle{
                                 width:30
                                 height: 30
                                 imgSource: "qrc:/Icons/search.png"
+                                onButtonClicked: {
+                                    mediaObj.filterVideo(textVideoFilter);
+
+                                }
                             }
                             Rectangle{
                                 width: searchArea.width-searchButton.width
                                 height: searchArea.height
                                 radius: 10
                                 TextEdit {
-                                    id:textSearch
+                                    id:textSearchVideo
                                     anchors.fill: parent
                                     anchors.top: parent.top
                                     anchors.topMargin: 5
@@ -220,6 +224,7 @@ Rectangle{
                             listGlobalVideo.currentIndex = index
                             isPlaying=true
                             isVideo=true
+                            isShowCoverArt=true
                             mediaObj.setVideoPlay()
                             mediaObj.playVideo(IndexVideo);
                             mediaObj.setIndexVideo(IndexVideo);

@@ -69,9 +69,11 @@
         <file>Screen/SettingScreen.qml</file>
         <file>Icons/toggle_off_FILL0_wght400_GRAD200_opsz48.png</file>
         <file>Icons/toggle_on_FILL0_wght400_GRAD200_opsz48.png</file>
-        <file>vi.ts</file>
-        <file>vi.qm</file>
-        <file>en.qm</file>
-        <file>en.ts</file>
+        <file>Language/en.qm</file>
+        <file>Language/en.ts</file>
+        <file>Language/vi.qm</file>
+        <file>Language/vi.ts</file>
+        <file>Icons/4079608.jpg</file>
+        <file>Icons/pngwing.com.png</file>
     </qresource>
 </RCC>

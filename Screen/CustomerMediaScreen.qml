@@ -6,10 +6,12 @@ Rectangle{
     id:mediaScreen
     anchors.right: parent.right
     color: colorMediaScreen
+    property alias coverArt: coverArt
 
     Image {
         id: coverArt
         source: mediaObj.songCoverArt()
+        z:isShowCoverArt?-1:0
         anchors.centerIn: parent
         height: parent.height*2/3
         width: parent.height*2/3

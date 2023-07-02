@@ -28,6 +28,7 @@ Window {
     property bool statusText: false
     property bool checkButton: false
     property bool statusScreen: true
+    property bool isShowCoverArt: false
     property string songName:""
     property var value
     property string sourceImageCover: ""

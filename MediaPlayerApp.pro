@@ -41,6 +41,6 @@ HEADERS += \
     Model/MediaModel.h
 
 DISTFILES += \
-    vi.qm \
-    en.qm
+    Language/vi.qm \
+    Language/en.qm
 

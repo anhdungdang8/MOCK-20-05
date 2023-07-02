@@ -8,11 +8,13 @@ ListVideoModel::ListVideoModel(QVector<MediaModel*> &videoListModel,QObject *par
 
 ListVideoModel::~ListVideoModel()
 {
-
     for(int i=0;i<m_listVideo.size();i++)
     {
         delete m_listVideo[i];
     }
+
+
+    m_listVideo.clear();
 
 }
 
@@ -59,8 +61,8 @@ QHash<int, QByteArray> ListVideoModel::roleNames() const
 
 void ListVideoModel::removeVideoModel(int index)
 {
-    beginRemoveRows(QModelIndex(),index,index);
+    beginRemoveRows(QModelIndex(),index,index);//notify the model that rows are about to be removed
     m_listVideo.removeAt(index);
-    endRemoveRows();
+    endRemoveRows();//is used to signal the model that rows have been successfully removed
 
 }

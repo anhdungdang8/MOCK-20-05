@@ -22,6 +22,7 @@ MediaController::MediaController(QObject *parent)
     connect(playMusicList,&QMediaPlaylist::currentIndexChanged,this,&MediaController::setIndexMediaChanged);
     connect(playVideoList,&QMediaPlaylist::currentIndexChanged,this,&MediaController::setIndexMediaChanged);
 
+
     getMusicLocal();
     getVideoLocal();
 }
@@ -33,6 +34,8 @@ MediaController::~MediaController()
     delete playVideoList;
     delete m_proxyMusic;
     delete m_proxyVideo;
+    delete m_translatorVietNam;
+    delete m_translatorEnglish;
 
 }
 
@@ -94,10 +97,10 @@ void MediaController::getFolderMusic()
             //get metadata of media
             TagLib::FileRef f(fullPath.toLocal8Bit().data());
             TagLib::Tag* tag = f.tag();
-//            if (!tag)
-//            {
-//                continue;
-//            }
+            if (!tag)
+            {
+                continue;
+            }
             MediaModel* song = new MediaModel;
             song->setSource(fullPath.toStdString().c_str());
             song->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
@@ -131,7 +134,7 @@ QVariantList MediaController::getVideoLocal()
 
         content.push_back(QUrl::fromLocalFile(directory.path()+"/" + f));
         videoList.push_back(QVariant::fromValue(f));
-        //get metadata of video
+        //get metadata of video in movies location
         TagLib::FileRef r((directory.path()+"/" + f).toLocal8Bit().data());
         TagLib::Tag* tag =r.tag();
         MediaModel* video = new MediaModel;
@@ -166,14 +169,15 @@ void MediaController::getFolderVideo()
         QList<QMediaContent> content;
         for(int i=0;i<filePath.size();++i)
         {
+             //get metadata of video in folder
             const QString& fileName =filePath[i];
             QString fullPath = folder.filePath(fileName);
             TagLib::FileRef f(fullPath.toLocal8Bit().data());
             TagLib::Tag* tag = f.tag();
-//            if (!tag)
-//            {
-//                continue;
-//            }
+            if (!tag)
+            {
+                continue;
+            }
             MediaModel* video = new MediaModel;
             video->setSource(fullPath.toStdString().c_str());
             video->setTitle(QString::fromStdString(tag->title().to8Bit(true)));
@@ -261,7 +265,7 @@ void MediaController::setMusicPlay()
 void MediaController::setVideoPlay()
 {
     player->setPlaylist(playVideoList);
-    qDebug()<<player->mediaStatus();
+
 }
 
 void MediaController::seekForward()
@@ -405,7 +409,7 @@ QString MediaController::songCoverArt()
     QString base64 = buffer.data().toBase64();
     if(base64=="")
     {
-        return "qrc:/Icons/Logo.png";
+        return "qrc:/Icons/pngwing.com.png";
     }
     QString ret= QString("data:image/png;base64,")+ base64;
     return ret;
@@ -413,17 +417,9 @@ QString MediaController::songCoverArt()
 
 void MediaController::setSource(QString source)
 {
-    m_currentCoverArt=m_songModel->imageForTag(source);
+    m_currentCoverArt=m_songModel->imageForTag(source);//set source media to get cover art
 
 }
-
-
-
-
-
-
-
-
 qint64 MediaController::position() const
 {
 
@@ -495,6 +491,7 @@ void MediaController::nextMedia()
 {
     playVideoList->next();
     playMusicList->next();
+
     player->play();
 
 
@@ -513,6 +510,7 @@ void MediaController::repeatMedia(int repeatIndex)
 
     if(repeatIndex==0)
     {
+
         playMusicList->setPlaybackMode(QMediaPlaylist::Sequential);
         playVideoList->setPlaybackMode(QMediaPlaylist::Sequential);
     }
@@ -564,13 +562,6 @@ void MediaController::setVideoSurface(QAbstractVideoSurface *newVideoSurface)
 
 }
 
-
-
-
-
-
-
-
 ListMusicModel *MediaController::songModel() const
 {
     return m_songModel;
@@ -605,10 +596,7 @@ int MediaController::index() const
 
 void MediaController::setIndex(int newIndex)
 {
-//    QModelIndex index = m_songModel->index(m_index,0);
-//    QVariant data = m_songModel->data(index,m_songModel->ListMusicModel::Songs::SourceSongs);
-//    QString source= data.toString();
-//    setSource(source);
+
     if (m_index == newIndex)
         return;
     if(newIndex>playMusicList->mediaCount()-1)
@@ -625,6 +613,7 @@ void MediaController::setIndex(int newIndex)
     else{
         m_index = newIndex;
     }
+
 
     emit indexChanged();
 }
@@ -663,7 +652,7 @@ void MediaController::transtoVietNamese()
     {
         m_translatorVietNam= new QTranslator;
     }
-    qDebug()<<m_translatorVietNam->load(":/vi.qm");
+    m_translatorVietNam->load(":/Language/vi.qm");
     if(m_translatorEnglish){
          qApp->removeTranslator(m_translatorEnglish);
     }
@@ -678,7 +667,7 @@ void MediaController::transtoEnglish()
     {
         m_translatorEnglish= new QTranslator;
     }
-   qDebug()<< m_translatorEnglish->load(":/en.qm");
+    m_translatorEnglish->load(":/Language/en.qm");
 
     if(m_translatorVietNam){
          qApp->removeTranslator(m_translatorVietNam);
@@ -692,12 +681,13 @@ void MediaController::transtoEnglish()
 
 void MediaController::setIndexMediaChanged()
 {
-    setIndex(playMusicList->currentIndex());
-    setIndexVideo(playVideoList->currentIndex());
-    QModelIndex index = m_songModel->index(m_index,0);
-    QVariant data = m_songModel->data(index,m_songModel->ListMusicModel::Songs::SourceSongs);
-    QString source= data.toString();
-    setSource(source);
+
+        setIndex(playMusicList->currentIndex());
+        setIndexVideo(playVideoList->currentIndex());
+        QModelIndex index = m_proxyMusic->index(m_index,0);
+        QVariant data = m_proxyMusic->data(index,m_songModel->ListMusicModel::Songs::SourceSongs);
+        QString source= data.toString();
+        setSource(source);
 }
 
 void MediaController::initEngine()

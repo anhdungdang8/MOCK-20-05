@@ -29,8 +29,6 @@
 
 
 
-
-
 class MediaController : public QObject
 {
     Q_OBJECT
@@ -57,10 +55,10 @@ public:
     explicit MediaController(QObject *parent = nullptr);
     ~MediaController();
 
-    Q_INVOKABLE QVariantList getMusicLocal();
-    Q_INVOKABLE QVariantList getVideoLocal();
-    Q_INVOKABLE void getFolderMusic();//open and get media in folder
-    Q_INVOKABLE void getFolderVideo();//open and get media in folder
+    Q_INVOKABLE QVariantList getMusicLocal();//get music in Music location
+    Q_INVOKABLE QVariantList getVideoLocal();//get Video in Video location
+    Q_INVOKABLE void getFolderMusic();//open and get music in folder
+    Q_INVOKABLE void getFolderVideo();//open and get video in folder
 
     Q_INVOKABLE QString getMusicTitle(int indexSong);
     Q_INVOKABLE QString getMusicArtist(int indexSong);
@@ -96,8 +94,8 @@ public:
     Q_INVOKABLE QString songCoverArt();
     Q_INVOKABLE void setSource(QString source);
 
-    Q_INVOKABLE void setIndex(int newIndex);
-    Q_INVOKABLE void setIndexVideo(int newIndexVideo);
+    Q_INVOKABLE void setIndex(int newIndex);// set index of songs in list music
+    Q_INVOKABLE void setIndexVideo(int newIndexVideo);// set index of video in list video
 
     Q_INVOKABLE void transtoVietNamese();
     Q_INVOKABLE void transtoEnglish();
@@ -182,7 +180,7 @@ private:
     QQmlApplicationEngine engine;
     QQmlContext* context;
     QTranslator* m_translatorVietNam=nullptr;
-     QTranslator* m_translatorEnglish=nullptr;
+    QTranslator* m_translatorEnglish=nullptr;
 
     int m_index;
     int m_indexVideo;

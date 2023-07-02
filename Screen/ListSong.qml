@@ -74,6 +74,7 @@ Item {
                             listGlobal.currentIndex = index
                             isPlaying=true
                             isVideo=false
+                            isShowCoverArt=false
                             mediaObj.setMusicPlay()
                             mediaObj.playMusic(IndexSongs)
                             mediaObj.setIndex(IndexSongs)

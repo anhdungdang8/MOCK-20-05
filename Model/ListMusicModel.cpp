@@ -13,12 +13,13 @@ ListMusicModel::ListMusicModel(QVector<MediaModel*> &songList, QObject *parent)
 
 ListMusicModel::~ListMusicModel()
 {
-
     for(int i=0;i<m_listSong.size();i++)
     {
         delete m_listSong[i];
     }
+
     m_listSong.clear();
+
 
 }
 
@@ -74,23 +75,22 @@ void ListMusicModel::removeMusicModel(int index)
 QImage ListMusicModel::imageForTag(QString mediasource)
 {
     QImage image;
-        TagLib::FileRef taglib_file(mediasource.toLocal8Bit().data());
-        if (taglib_file.isNull())
-            std::cerr << "TagLib can't read the file." << std::endl;
-        TagLib::ID3v2::Tag tagObject = TagLib::ID3v2::Tag(taglib_file.file(), 0);
-        TagLib::ID3v2::Tag* tag = &tagObject;
-        TagLib::ID3v2::FrameList l = tag->frameList("APIC");
-        if(l.isEmpty()) {
-            return image;
-        }
-        TagLib::ID3v2::AttachedPictureFrame *f =
-                static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-        image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
+    TagLib::FileRef taglib_file(mediasource.toLocal8Bit().data());
+    TagLib::ID3v2::Tag tagObject = TagLib::ID3v2::Tag(taglib_file.file(), 0);
+    TagLib::ID3v2::Tag* tag = &tagObject;
+    TagLib::ID3v2::FrameList l = tag->frameList("APIC");
+    /* "APIC" is the ID3v2 frame identifier for attached pictures (album artwork).
+    The retrieved frames are stored in the FrameList object called l.*/
+    if(l.isEmpty()) {
         return image;
+    }
+    //performing a static cast on the first element of the FrameList l to convert it into a pointer of type TagLib::ID3v2::AttachedPictureFrame*.
+    TagLib::ID3v2::AttachedPictureFrame *f =
+            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+    image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
+    return image;
 
 }
-
-
 
 
 

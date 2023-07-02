@@ -74,7 +74,7 @@ Rectangle{
                         }
                     }
                     MenuButton{
-                        id:favoriteButton
+                        id:favoriteMusicButton
                         imgSource: "qrc:/Icons/favorite.png"
                         width: 85
                         height: 30
@@ -94,7 +94,7 @@ Rectangle{
                          spacing: 2
 
                         MenuButton{
-                            id:sortTitleButton
+                            id:sortTitleMusicButton
                             width: 60
                             height: 30
                             Text{
@@ -111,7 +111,7 @@ Rectangle{
                             }
                         }
                         MenuButton{
-                            id:sortAlbumButton
+                            id:sortAlbumMusicButton
                             width: 60
                             height: 30
                             Text{
@@ -127,7 +127,7 @@ Rectangle{
                             }
                         }
                         MenuButton{
-                            id:sortArtitsButton
+                            id:sortArtitsMusicButton
                             width: 60
                             height: 30
                             Text{
@@ -154,6 +154,9 @@ Rectangle{
                                 width:30
                                 height: 30
                                 imgSource: "qrc:/Icons/search.png"
+                                onButtonClicked: {
+                                      mediaObj.filterMusic(textFilter);
+                                }
 
                             }
                             Rectangle{
@@ -177,6 +180,8 @@ Rectangle{
                                     focus: true
 
                                 }
+
+
 
                             }
                         }
@@ -243,6 +248,7 @@ Rectangle{
                             listGlobal.currentIndex = index
                             isPlaying=true
                             isVideo=false
+                            isShowCoverArt=false
                             mediaObj.setMusicPlay()
                             mediaObj.setSource(SourceSongs);
                             mediaObj.playMusic(IndexSongs)

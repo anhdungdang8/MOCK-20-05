@@ -51,19 +51,6 @@ public:
     QImage  imageForTag(QString mediasource);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 signals:
 
 
